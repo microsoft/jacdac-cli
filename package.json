@@ -12,12 +12,15 @@
     "type": "git",
     "url": "git+https://github.com/microsoft/jacdac-cli.git"
   },
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.17.0"
+  },
   "keywords": [
     "jacdac",
     "cli"
   ],
   "author": "Microsoft Corporation",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/microsoft/jacdac-cli/issues"
   },
