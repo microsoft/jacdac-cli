@@ -2,12 +2,8 @@
   "name": "jacdac-cli",
   "version": "0.0.0",
   "description": "Command line interface for Jacdac",
-  "exports": {
-    "require": "./dist/cli.cjs",
-    "default": "./dist/cli.modern.js"
-  },
   "main": "./dist/cli.ts",
-  "module": "./dist/cli.module.js",
+  "bin": "./dist/cli.js",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch"
