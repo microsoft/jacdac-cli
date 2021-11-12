@@ -5,6 +5,8 @@
   "main": "./dist/cli.ts",
   "bin": "./dist/cli.js",
   "scripts": {
+    "lint": "eslint src/**/*.ts",
+    "prettier": "prettier --write src/**/*.ts",
     "build": "microbundle",
     "dev": "microbundle watch"
   },
@@ -32,7 +34,11 @@
   "devDependencies": {
     "@semantic-release/exec": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint": "^8.2.0",
     "microbundle": "^0.14.1",
+    "prettier": "^2.4.1",
     "semantic-release": "^18.0.0",
     "tslint-microsoft-contrib": "^6.2.0"
   },
