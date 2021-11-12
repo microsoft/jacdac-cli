@@ -30,10 +30,11 @@
     "jacdac-ts": "^1.22.4"
   },
   "devDependencies": {
-    "microbundle": "^0.14.1",
     "@semantic-release/exec": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
-    "semantic-release": "^18.0.0"
+    "microbundle": "^0.14.1",
+    "semantic-release": "^18.0.0",
+    "tslint-microsoft-contrib": "^6.2.0"
   },
   "optionalDependencies": {
     "serialport": "^9.2.5",
