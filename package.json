@@ -8,7 +8,7 @@
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --write src/**/*.ts",
     "build": "microbundle",
-    "dev": "microbundle watch"
+    "watch": "microbundle watch"
   },
   "repository": {
     "type": "git",
