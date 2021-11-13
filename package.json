@@ -2,10 +2,11 @@
   "name": "jacdac-cli",
   "version": "1.0.2",
   "description": "Command line interface for Jacdac",
+  "preferGlobal": true,
   "main": "./dist/cli.ts",
   "bin": {
-    "jacdac": "./dist/cli.js",
-    "jacdac-cli": "./dist/cli.js"
+    "jacdac": "./jacdac",
+    "jacdac-cli": "./jacdac"
   },
   "scripts": {
     "lint": "eslint src/**/*.ts",
