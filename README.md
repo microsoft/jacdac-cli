@@ -26,7 +26,9 @@ The rest of this page is for developers of the jacdac-ts library.
 npm install -g jacdac-cli
 ```
 
-## `jacdac parse`
+## Usage
+
+### `jacdac parse`
 
 Parses a logic analyzer log and replays the packets
 
@@ -34,7 +36,7 @@ Parses a logic analyzer log and replays the packets
 jacdac parse log.txt
 ```
 
-## `jacdac devtools`
+### `jacdac devtools`
 
 Starts a local websocket server that acts as a bridge between a web dashboard and a client implementation. This allows to test a native client using the latest version of the web developer tools.
 
