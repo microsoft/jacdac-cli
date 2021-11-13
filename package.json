@@ -4,7 +4,8 @@
   "description": "Command line interface for Jacdac",
   "main": "./dist/cli.ts",
   "bin": {
-    "jacdac": "./dist/cli.js"
+    "jacdac": "./dist/cli.js",
+    "jacdac-cli": "./dist/cli.js"
   },
   "scripts": {
     "lint": "eslint src/**/*.ts",
