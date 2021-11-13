@@ -26,8 +26,6 @@ async function mainCli() {
         .option("-u, --usb", "listen to Jacdac over USB")
         .option("-s, --serial", "listen to Jacdac over SERIAL")
         .option("-p, --packets", "show all packets")
-        .option("--ws", "start web socket server")
-        .option("--port <number>", "specify custom web socket server port")
         .option("--devices <string>", "regular expression filter for devices")
         .option("--services <string>", "regular expression filter for services")
         .option("--rm", "delete files from output folder")

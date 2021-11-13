@@ -112,6 +112,7 @@ export async function devToolsCommand(options?: { packets?: boolean }) {
             })
             if (str) debug(serializeToTrace(pkt, 0))
         })
+
     bus.start()
     server.listen(port)
 }

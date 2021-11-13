@@ -9,7 +9,7 @@
     "prettier": "prettier --write src/**/*.ts",
     "build:cli": "microbundle",
     "build:web": "tsc public/index.ts",
-    "devtools": "yarn build:web && node ./dist/cli.js devtools --trace",
+    "devtools": "yarn build:web && node ./dist/cli.js devtools",
     "watch": "microbundle watch"
   },
   "repository": {
@@ -52,8 +52,7 @@
   },
   "optionalDependencies": {
     "serialport": "^9.2.5",
-    "webusb": "^2.2.0",
-    "ws": "^8.2.3"
+    "webusb": "^2.2.0"
   },
   "files": [
     "dist",

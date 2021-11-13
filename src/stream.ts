@@ -1,7 +1,5 @@
 import {
     PACKET_PROCESS,
-    PACKET_SEND,
-    WEBSOCKET_TRANSPORT,
     createUSBTransport,
     createNodeUSBOptions,
     JDBus,
@@ -46,37 +44,6 @@ export async function streamCommand(
 
     log(`starting bus...`)
     const bus = new JDBus(transports, { client: false })
-    if (options.ws) {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const ws = require("ws")
-        const port = options.port || 8080
-        const urls = [`http://localhost:${port}/`, `http://127.0.0.1:${port}/`]
-        log(`starting web socket server`)
-        urls.forEach(url => debug(`\t${url}`))
-        const wss = new ws.WebSocketServer({ port })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        wss.on("connection", (ws: any) => {
-            debug(`ws: client connected`)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ws.on("message", (message: any) => {
-                const data = new Uint8Array(message as ArrayBuffer)
-                const pkt = Packet.fromBinary(data, bus.timestamp)
-                pkt.sender = WEBSOCKET_TRANSPORT
-                bus.processPacket(pkt)
-            })
-            const cleanup = bus.subscribe(
-                [PACKET_PROCESS, PACKET_SEND],
-                (pkt: Packet) => {
-                    ws.send(pkt.toBuffer())
-                }
-            )
-            ws.on("close", () => {
-                debug(`ws: client disconnected`)
-                cleanup?.()
-            })
-        })
-        wss.on("error", error)
-    }
     if (options.packets)
         bus.on(PACKET_PROCESS, (pkt: Packet) => {
             const str = printPacket(pkt, {
