@@ -31,7 +31,7 @@ npm install -g jacdac-cli
 Starts a local websocket server that acts as a bridge between a web dashboard and a client implementation. This allows to test a native client using the latest version of the web developer tools.
 
 ```
-jacdac-cli devtools
+jacdac devtools
 ```
 
 ## Contributing

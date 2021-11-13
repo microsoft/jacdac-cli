@@ -3,7 +3,9 @@
   "version": "1.0.1",
   "description": "Command line interface for Jacdac",
   "main": "./dist/cli.ts",
-  "bin": "./dist/cli.js",
+  "bin": {
+    "jacdac": "./dist/cli.js"
+  },
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --write src/**/*.ts",
