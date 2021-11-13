@@ -30,14 +30,16 @@ export async function streamCommand(
 
     const transports: Transport[] = []
     if (options.usb) {
-        debug(`adding USB transport`)
+        log(`adding USB transport`)
+        log(`make sure to install the webusb package`)
         debug(
             `on windows, node.js will crash if you haven't setup libusb properly...`
         )
         transports.push(createUSBTransport(createNodeUSBOptions()))
     }
     if (options.serial) {
-        debug(`adding serial transport`)
+        log(`adding serial transport`)
+        log(`make sure to install the serialport package`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         transports.push(createNodeWebSerialTransport(require("serialport")))
     }

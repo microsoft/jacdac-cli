@@ -15,7 +15,7 @@ This repository contains a command line interface tool for the [Jacdac](https://
 -   Discussions at https://github.com/microsoft/jacdac/discussions
 -   Issues are tracked on https://github.com/microsoft/jacdac/issues
 
-The rest of this page is for developers of the jacdac-ts library.
+The rest of this page is for developers of the `jacdac-ts` library.
 
 ## Installation
 
