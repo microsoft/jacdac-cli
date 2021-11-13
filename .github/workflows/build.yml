@@ -27,7 +27,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
       - run: yarn prettier
       - run: yarn lint
-      - run: yarn build
+      - run: yarn build:cli
       - run: yarn build:web
       - run: npx semantic-release
         if: ${{ github.ref == 'refs/heads/main' }}
