@@ -1,4 +1,5 @@
 import {
+    ERROR,
     JDBus,
     Packet,
     PACKET_PROCESS,
@@ -72,6 +73,7 @@ export async function devToolsCommand(options?: { packets?: boolean }) {
 
     // passive bus to sniff packets
     const bus = new JDBus([], { client: false, disableRoleManager: true })
+    bus.on(ERROR, e => error(e))
     bus.passive = true
 
     const processPacket = (message: ArrayBuffer, sender: string) => {
