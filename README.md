@@ -20,7 +20,7 @@ The rest of this page is for developers of the jacdac-ts library.
 ## Installation
 
 -   Install [nodejs.org](https://nodejs.org/) 14+
--   Install the tool globally
+-   Install the tool globally.
 
 ```
 npm install -g jacdac-cli
