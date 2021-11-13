@@ -7,7 +7,9 @@
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --write src/**/*.ts",
-    "build": "microbundle",
+    "build:cli": "microbundle",
+    "build:web": "tsc public/index.ts",
+    "devtools": "yarn build:web && node ./dist/cli.js devtools --trace",
     "watch": "microbundle watch"
   },
   "repository": {
@@ -41,14 +43,20 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
+    "faye-websocket": "^0.11.4",
     "microbundle": "^0.14.1",
     "prettier": "^2.4.1",
     "semantic-release": "^18.0.0",
-    "tslint-microsoft-contrib": "^6.2.0"
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "^4.4.4"
   },
   "optionalDependencies": {
     "serialport": "^9.2.5",
     "webusb": "^2.2.0",
     "ws": "^8.2.3"
-  }
+  },
+  "files": [
+    "dist",
+    "public"
+  ]
 }

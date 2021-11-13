@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { program } = require("commander")
 import type { CommandOptions } from "commander"
+import { devToolsCommand } from "./devtools"
 import { parseCommand } from "./parse"
 import { streamCommand } from "./stream"
 
@@ -33,13 +34,16 @@ async function mainCli() {
         .option("--catalog", "generate .json files for device catalog")
         .action(streamCommand)
 
+    createCommand("devtools")
+        .option("-p, --packets", "show all packets")
+        .action(devToolsCommand)
+
     await program.parseAsync(process.argv)
 }
 
 async function mainWrapper() {
     try {
         await mainCli()
-        process.exit(0)
     } catch (e) {
         error("Exception: " + e.stack)
         error("Build failed")

@@ -28,6 +28,7 @@ jobs:
       - run: yarn prettier
       - run: yarn lint
       - run: yarn build
+      - run: yarn build:web
       - run: npx semantic-release
         if: ${{ github.ref == 'refs/heads/main' }}
         env:
