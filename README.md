@@ -22,7 +22,17 @@ The rest of this page is for developers of the jacdac-ts library.
 -   Install [nodejs.org](https://nodejs.org/) 14+
 -   Install the tool globally
 
-    npm install -g jacdac-cli
+```
+npm install -g jacdac-cli
+```
+
+## Devtools
+
+Starts a local websocket server that acts as a bridge between a web dashboard and a client implementation. This allows to test a native client using the latest version of the web developer tools.
+
+```
+jacdac-cli devtools
+```
 
 ## Contributing
 
