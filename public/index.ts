@@ -11,7 +11,7 @@
         console.debug(`devtools: connected to local server`)
     })
     ws.addEventListener("message", (msg) => {
-        const data = msg.data
+        const data = new Uint8Array(msg.data)
         const pktMsg = {
             type: "messagepacket",
             channel: "jacdac",

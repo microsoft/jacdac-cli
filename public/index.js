@@ -10,7 +10,7 @@
         console.debug("devtools: connected to local server");
     });
     ws.addEventListener("message", function (msg) {
-        var data = msg.data;
+        var data = new Uint8Array(msg.data);
         var pktMsg = {
             type: "messagepacket",
             channel: "jacdac",
