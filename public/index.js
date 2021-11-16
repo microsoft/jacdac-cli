@@ -10,14 +10,14 @@
         console.debug("devtools: connected to local server");
     });
     ws.addEventListener("message", function (msg) {
-        var data = new Uint8Array(msg.data);
+        var data = msg.data;
         var pktMsg = {
             type: "messagepacket",
             channel: "jacdac",
             data: data,
             sender: sender
         };
-        frame.contentWindow.postMessage(pktMsg);
+        frame.contentWindow.postMessage(pktMsg, "*");
     });
     ws.addEventListener("close", function () {
         console.debug("devtools: connection closed");
@@ -26,8 +26,9 @@
     window.addEventListener("message", function (msg) {
         var data = msg.data;
         if (data && data.type === "messagepacket" && data.channel === "jacdac") {
-            if ((ws === null || ws === void 0 ? void 0 : ws.readyState) === WebSocket.OPEN)
+            if ((ws === null || ws === void 0 ? void 0 : ws.readyState) === WebSocket.OPEN) {
                 ws.send(data.data);
+            }
         }
     });
 })();

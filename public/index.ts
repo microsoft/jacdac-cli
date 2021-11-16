@@ -11,14 +11,14 @@
         console.debug(`devtools: connected to local server`)
     })
     ws.addEventListener("message", (msg) => {
-        const data = new Uint8Array(msg.data)
+        const data = msg.data
         const pktMsg = {
             type: "messagepacket",
             channel: "jacdac",
             data,
             sender,
         }
-        frame.contentWindow.postMessage(pktMsg)
+        frame.contentWindow.postMessage(pktMsg, "*")
     })
     ws.addEventListener("close", () => {
         console.debug(`devtools: connection closed`)
@@ -27,8 +27,9 @@
     window.addEventListener("message", msg => {
         const data = msg.data
         if (data && data.type ==="messagepacket" && data.channel === "jacdac") {
-            if (ws?.readyState === WebSocket.OPEN)
+            if (ws?.readyState === WebSocket.OPEN) {
                 ws.send(data.data)
+            }
         }
     })
 })()
