@@ -4,19 +4,20 @@
     frame.src = "https://microsoft.github.io/jacdac-docs/dashboard/#" + sender;
     // node.js -> iframe dashboard
     var ws = new WebSocket("ws://localhost:8081/");
+    ws.binaryType = "arraybuffer";
     console.debug("devtools: connecting to local server...");
     ws.addEventListener("open", function () {
         console.debug("devtools: connected to local server");
     });
     ws.addEventListener("message", function (msg) {
-        var data = msg.data;
-        frame.contentWindow.postMessage({
+        var data = new Uint8Array(msg.data);
+        var pktMsg = {
             type: "messagepacket",
             channel: "jacdac",
             data: data,
-            sender: sender,
-            broadcast: true
-        });
+            sender: sender
+        };
+        frame.contentWindow.postMessage(pktMsg);
     });
     ws.addEventListener("close", function () {
         console.debug("devtools: connection closed");

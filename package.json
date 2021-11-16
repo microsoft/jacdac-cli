@@ -12,7 +12,9 @@
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --write src/**/*.ts",
     "build:cli": "microbundle",
+    "watch:cli": "microbundle watch",
     "build:web": "tsc public/index.ts",
+    "watch:web": "tsc public/index.ts --watch",
     "devtools": "yarn build:web && node ./dist/cli.js devtools",
     "watch": "microbundle watch"
   },

@@ -5,19 +5,20 @@
 
     // node.js -> iframe dashboard
     const ws = new WebSocket("ws://localhost:8081/")
+    ws.binaryType = "arraybuffer"
     console.debug(`devtools: connecting to local server...`)
     ws.addEventListener("open", () => {
         console.debug(`devtools: connected to local server`)
     })
     ws.addEventListener("message", (msg) => {
-        const data = msg.data
-        frame.contentWindow.postMessage({
+        const data = new Uint8Array(msg.data)
+        const pktMsg = {
             type: "messagepacket",
             channel: "jacdac",
-            data: data,
+            data,
             sender,
-            broadcast: true,
-        })
+        }
+        frame.contentWindow.postMessage(pktMsg)
     })
     ws.addEventListener("close", () => {
         console.debug(`devtools: connection closed`)
