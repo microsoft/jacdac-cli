@@ -17,7 +17,6 @@
         console.debug(`devtools: connected ${ws.url}`)
     })
     ws.addEventListener("message", (msg) => {
-        console.debug(`msg`, msg.data)
         const data = new Uint8Array(msg.data)
         const pktMsg = {
             type: "messagepacket",
@@ -36,7 +35,7 @@
     // iframe dashboard -> node.js
     window.addEventListener("message", msg => {
         const data = msg.data
-        if (data && data.type ==="messagepacket" && data.channel === "jacdac") {
+        if (data && data.type === "messagepacket" && data.channel === "jacdac") {
             if (ws?.readyState === WebSocket.OPEN) {
                 ws.send(data.data)
             }

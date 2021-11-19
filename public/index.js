@@ -16,7 +16,6 @@
         console.debug("devtools: connected " + ws.url);
     });
     ws.addEventListener("message", function (msg) {
-        console.debug("msg", msg.data);
         var data = new Uint8Array(msg.data);
         var pktMsg = {
             type: "messagepacket",
