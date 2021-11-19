@@ -54,9 +54,6 @@ export async function devToolsCommand(options?: { packets?: boolean }) {
                 return
             }
 
-            // if is a directory search for index file matching the extension
-            //if (fs.statSync(fname).isDirectory()) fname += "index" + ext
-
             // read file from file system
             fs.readFile(fname, (err, data) => {
                 if (err) {
