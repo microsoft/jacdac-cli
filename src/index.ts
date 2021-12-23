@@ -34,6 +34,7 @@ async function mainCli() {
 
     createCommand("devtools")
         .option("-p, --packets", "show all packets")
+        .option("-i, --internet", "allow connections from non-localhost")
         .action(devToolsCommand)
 
     await program.parseAsync(process.argv)

@@ -1,4 +1,5 @@
 import {
+    bufferConcat,
     ERROR,
     JDBus,
     Packet,
@@ -13,18 +14,25 @@ const http = require("http")
 const fs = require("fs")
 const url = require("url")
 const path = require("path")
+const net = require("net")
 
 const log = console.log
 const debug = console.debug
 const error = console.error
 
-export async function devToolsCommand(options?: { packets?: boolean }) {
-    const { packets } = options || {}
+export async function devToolsCommand(options?: {
+    packets?: boolean
+    internet?: boolean
+}) {
+    const { packets, internet } = options || {}
     const port = 8081
+    const tcpPort = 8082
+    const listenHost = internet ? undefined : "127.0.0.1"
 
     debug(`starting dev tools...`)
     log(`   dashboard: http://localhost:${port}`)
     log(`   websocket: ws://localhost:${port}`)
+    log(`   raw socket: tcp://localhost:${tcpPort}`)
 
     // start http server
     const clients: WebSocket[] = []
@@ -80,6 +88,13 @@ export async function devToolsCommand(options?: { packets?: boolean }) {
         bus.processPacket(pkt)
     }
 
+    function removeClient(client: any) {
+        const i = clients.indexOf(client)
+        clients.splice(i, 1)
+        client = undefined
+        log(`client: disconnected (${clients.length} clients)`)
+    }
+
     server.on("upgrade", (request, socket, body) => {
         // is this a socket?
         if (WebSocket.isWebSocket(request)) {
@@ -92,14 +107,44 @@ export async function devToolsCommand(options?: { packets?: boolean }) {
                 clients.filter(c => c !== client).forEach(c => c.send(data))
                 processPacket(data, sender)
             })
-            client.on("close", () => {
-                const i = clients.indexOf(client)
-                clients.splice(i, 1)
-                client = undefined
-                log(`client: disconnected (${clients.length} clients)`)
-            })
+            client.on("close", () => removeClient(client))
             client.on("error", ev => error(ev))
         }
+    })
+
+    const tcpServer = net.createServer(client => {
+        const sender = Math.random() + ""
+        client.send = (pkt: Uint8Array) => {
+            const b = new Uint8Array(1 + pkt.length)
+            b[0] = pkt.length
+            b.set(pkt, 1)
+            client.write(b)
+        }
+        clients.push(client)
+        log(`client: connected (${clients.length} clients)`)
+        let acc: Uint8Array
+        client.on("data", (buf: Uint8Array) => {
+            if (acc) {
+                buf = bufferConcat(acc, buf)
+                acc = null
+            } else {
+                buf = new Uint8Array(buf)
+            }
+            while (buf) {
+                const endp = buf[0] + 1
+                if (buf.length >= endp) {
+                    const pkt = buf.slice(1, endp)
+                    if (buf.length > endp) buf = buf.slice(endp)
+                    else buf = null
+                    processPacket(pkt, sender)
+                } else {
+                    acc = buf
+                    buf = null
+                }
+            }
+        })
+        client.on("end", () => removeClient(client))
+        client.on("error", ev => error(ev))
     })
 
     if (packets)
@@ -113,5 +158,6 @@ export async function devToolsCommand(options?: { packets?: boolean }) {
         })
 
     bus.start()
-    server.listen(port)
+    server.listen(port, listenHost)
+    tcpServer.listen(tcpPort, listenHost)
 }

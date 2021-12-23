@@ -11,7 +11,7 @@
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --write src/**/*.ts",
-    "build:cli": "microbundle",
+    "build:cli": "microbundle --no-compress",
     "watch:cli": "microbundle watch",
     "build:web": "tsc public/index.ts",
     "watch:web": "tsc public/index.ts --watch",
