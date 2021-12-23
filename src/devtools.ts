@@ -88,17 +88,16 @@ export async function devToolsCommand(options?: {
         bus.processPacket(pkt)
     }
 
-    function removeClient(client: any) {
+    function removeClient(client: WebSocket) {
         const i = clients.indexOf(client)
         clients.splice(i, 1)
-        client = undefined
         log(`client: disconnected (${clients.length} clients)`)
     }
 
     server.on("upgrade", (request, socket, body) => {
         // is this a socket?
         if (WebSocket.isWebSocket(request)) {
-            let client = new WebSocket(request, socket, body)
+            const client = new WebSocket(request, socket, body)
             const sender = Math.random() + ""
             clients.push(client)
             log(`client: connected (${clients.length} clients)`)
