@@ -81,7 +81,7 @@ export async function devToolsCommand(options?: {
     bus.on(ERROR, e => error(e))
     bus.passive = true
 
-    const processPacket = (message: ArrayBuffer, sender: string) => {
+    const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
         const pkt = Packet.fromBinary(data, bus.timestamp)
         pkt.sender = sender
@@ -113,7 +113,8 @@ export async function devToolsCommand(options?: {
 
     const tcpServer = net.createServer(client => {
         const sender = Math.random() + ""
-        client.send = (pkt: Uint8Array) => {
+        client.send = (pkt0: Buffer) => {
+            const pkt = new Uint8Array(pkt0)
             const b = new Uint8Array(1 + pkt.length)
             b[0] = pkt.length
             b.set(pkt, 1)
@@ -135,6 +136,10 @@ export async function devToolsCommand(options?: {
                     const pkt = buf.slice(1, endp)
                     if (buf.length > endp) buf = buf.slice(endp)
                     else buf = null
+                    clients
+                        .filter(c => c !== client)
+                        // this should really be pkt.buffer to get ArrayBuffer but faye-websocket doesn't like that
+                        .forEach(c => c.send(Buffer.from(pkt)))
                     processPacket(pkt, sender)
                 } else {
                     acc = buf
