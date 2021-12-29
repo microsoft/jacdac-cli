@@ -118,7 +118,13 @@ export async function devToolsCommand(options?: {
             const b = new Uint8Array(1 + pkt.length)
             b[0] = pkt.length
             b.set(pkt, 1)
-            client.write(b)
+            try {
+                client.write(b)
+            } catch {
+                try {
+                    client.end()
+                } catch {}
+            }
         }
         clients.push(client)
         log(`client: connected (${clients.length} clients)`)
