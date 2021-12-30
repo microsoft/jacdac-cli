@@ -123,7 +123,7 @@ export async function devToolsCommand(options?: {
             } catch {
                 try {
                     client.end()
-                } catch {}
+                } catch {} // eslint-disable-line no-empty
             }
         }
         clients.push(client)
