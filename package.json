@@ -37,27 +37,27 @@
   "homepage": "https://github.com/microsoft/jacdac-cli#readme",
   "dependencies": {
     "commander": "^8.3.0",
-    "jacdac-ts": "^1.22.5",
+    "jacdac-ts": "^1.24.0",
     "faye-websocket": "^0.11.4"
   },
   "devDependencies": {
-    "@semantic-release/exec": "^6.0.2",
+    "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
-    "eslint": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint": "^8.5.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.1",
-    "microbundle": "^0.14.1",
-    "prettier": "^2.4.1",
-    "semantic-release": "^18.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "microbundle": "^0.14.2",
+    "prettier": "^2.5.1",
+    "semantic-release": "^18.0.1",
     "tslint-microsoft-contrib": "^6.2.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.4"
   },
   "peerDependencies": {
-    "serialport": "^9.2.5",
+    "serialport": "^9.2.8",
     "webusb": "^2.2.0"
   },
   "files": [
