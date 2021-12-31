@@ -16,11 +16,13 @@
         if (ws) return
 
         // node.js -> iframe dashboard
+        let opened = false
         ws = new WebSocket(wsurl)
         ws.binaryType = "arraybuffer"
         console.debug(`devtools: connecting ${wsurl}...`)
         ws.addEventListener("open", () => {
             console.debug(`devtools: connected ${ws.url}`)
+            opened = true
         })
         ws.addEventListener("message", (msg) => {
             const data = new Uint8Array(msg.data)
@@ -37,7 +39,8 @@
             ws = undefined
         })
         ws.addEventListener("error", (e: Event) => {
-            console.error(`devtools: error ${e + ""}`, e)
+            if (opened)
+                console.debug(`devtools: error`, e)
             ws?.close()
         })
         // iframe dashboard -> node.js
