@@ -37,17 +37,17 @@
   "homepage": "https://github.com/microsoft/jacdac-cli#readme",
   "dependencies": {
     "commander": "^8.3.0",
-    "jacdac-ts": "^1.24.0",
+    "jacdac-ts": "^1.24.1",
     "faye-websocket": "^0.11.4"
   },
   "devDependencies": {
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.8.1",
-    "@typescript-eslint/parser": "^5.8.1",
-    "eslint": "^8.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
+    "eslint": "^8.6.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "microbundle": "^0.14.2",
