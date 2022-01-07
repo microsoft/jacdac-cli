@@ -16,7 +16,8 @@
     "build:web": "tsc public/index.ts",
     "watch:web": "tsc public/index.ts --watch",
     "devtools": "yarn build:web && node ./dist/cli.js devtools",
-    "watch": "microbundle watch"
+    "watch": "microbundle watch",
+    "publish:pi": "yarn build:cli && scp -r ../jacdac-ts/dist/* pi@192.168.0.131:/home/pi/nodejs/ && scp -r ./dist/* pi@192.168.0.131:/home/pi/nodejs/"
   },
   "repository": {
     "type": "git",
@@ -37,8 +38,8 @@
   "homepage": "https://github.com/microsoft/jacdac-cli#readme",
   "dependencies": {
     "commander": "^8.3.0",
-    "jacdac-ts": "^1.24.1",
-    "faye-websocket": "^0.11.4"
+    "faye-websocket": "^0.11.4",
+    "jacdac-ts": "^1.24.1"
   },
   "devDependencies": {
     "@semantic-release/exec": "^6.0.3",
@@ -58,7 +59,8 @@
   },
   "peerDependencies": {
     "serialport": "^9.2.8",
-    "webusb": "^2.2.0"
+    "webusb": "^2.2.0",
+    "rpio": "^2.4.2"
   },
   "files": [
     "dist",

@@ -6,6 +6,7 @@ import {
     printPacket,
     Packet,
     createNodeWebSerialTransport,
+    createNodeSPITransport,
     Transport,
     serializeToTrace,
     isCancelError,
@@ -19,6 +20,7 @@ export async function streamCommand(
     options: {
         usb?: boolean
         serial?: boolean
+        spi?: boolean
         ws?: boolean
         catalog?: boolean
         port?: number
@@ -42,6 +44,12 @@ export async function streamCommand(
         log(`make sure to install the serialport package`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         transports.push(createNodeWebSerialTransport(require("serialport")))
+    }
+    if (options.spi) {
+        log(`adding serial transport`)
+        log(`make sure to install the serialport package`)
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        transports.push(createNodeSPITransport(require("rpio")))
     }
 
     log(`starting bus...`)
