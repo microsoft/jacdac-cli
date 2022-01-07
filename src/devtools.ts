@@ -7,6 +7,7 @@ import {
     printPacket,
     serializeToTrace,
 } from "jacdac-ts"
+import { createTransports, TransportsOptions } from "./transports"
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const WebSocket = require("faye-websocket")
@@ -23,11 +24,13 @@ const error = console.error
 export async function devToolsCommand(options?: {
     packets?: boolean
     internet?: boolean
-}) {
+} & TransportsOptions) {
     const { packets, internet } = options || {}
     const port = 8081
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
+
+    const transports = createTransports(options);
 
     debug(`starting dev tools...`)
     log(`   dashboard: http://localhost:${port}`)
@@ -77,9 +80,9 @@ export async function devToolsCommand(options?: {
     })
 
     // passive bus to sniff packets
-    const bus = new JDBus([], { client: false, disableRoleManager: true })
+    const bus = new JDBus(transports, { client: false, disableRoleManager: true, proxy: true })
     bus.on(ERROR, e => error(e))
-    bus.passive = true
+    bus.passive = transports.length === 0;
 
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)

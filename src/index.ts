@@ -35,7 +35,10 @@ async function mainCli() {
 
     createCommand("devtools")
         .option("-p, --packets", "show all packets")
-        .option("-i, --internet", "allow connections from non-localhost")
+        .option("-w, --internet", "allow connections from non-localhost")
+        .option("-u, --usb", "listen to Jacdac over USB")
+        .option("-s, --serial", "listen to Jacdac over SERIAL")
+        .option("-i, --spi", "listen to Jacdac over SPI")
         .action(devToolsCommand)
 
     await program.parseAsync(process.argv)
