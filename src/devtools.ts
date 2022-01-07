@@ -171,6 +171,7 @@ export async function devToolsCommand(options?: {
         })
 
     bus.start()
+    bus.connect(true)
     server.listen(port, listenHost)
     tcpServer.listen(tcpPort, listenHost)
 }
