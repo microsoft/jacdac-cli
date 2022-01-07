@@ -46,8 +46,8 @@ export async function streamCommand(
         transports.push(createNodeWebSerialTransport(require("serialport")))
     }
     if (options.spi) {
-        log(`adding serial transport`)
-        log(`make sure to install the serialport package`)
+        log(`adding SPI transport`)
+        log(`make sure to install the rpio package`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         transports.push(createNodeSPITransport(require("rpio")))
     }
