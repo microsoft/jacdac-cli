@@ -20,7 +20,7 @@ export async function streamCommand(
     } & TransportsOptions = {}
 ) {
     if (!options.usb && !options.serial) options.usb = options.serial = true
-    const transports = createTransports(options);
+    const transports = createTransports(options)
     log(`starting bus...`)
     const bus = new JDBus(transports, { client: false })
     if (options.packets)
