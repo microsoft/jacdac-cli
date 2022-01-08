@@ -14,11 +14,13 @@
         if (ws)
             return;
         // node.js -> iframe dashboard
+        var opened = false;
         ws = new WebSocket(wsurl);
         ws.binaryType = "arraybuffer";
         console.debug("devtools: connecting ".concat(wsurl, "..."));
         ws.addEventListener("open", function () {
             console.debug("devtools: connected ".concat(ws.url));
+            opened = true;
         });
         ws.addEventListener("message", function (msg) {
             var data = new Uint8Array(msg.data);
@@ -35,7 +37,8 @@
             ws = undefined;
         });
         ws.addEventListener("error", function (e) {
-            console.error("devtools: error ".concat(e + ""), e);
+            if (opened)
+                console.debug("devtools: error", e);
             ws === null || ws === void 0 ? void 0 : ws.close();
         });
         // iframe dashboard -> node.js
