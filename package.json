@@ -1,6 +1,6 @@
 {
   "name": "jacdac-cli",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Command line interface for Jacdac",
   "preferGlobal": true,
   "main": "./dist/cli.ts",

@@ -12,7 +12,7 @@ import { createTransports, TransportsOptions } from "./transports"
 /* eslint-disable @typescript-eslint/no-var-requires */
 const WebSocket = require("faye-websocket")
 const http = require("http")
-const https = require("https");
+const https = require("https")
 const url = require("url")
 const net = require("net")
 
@@ -21,17 +21,17 @@ const debug = console.debug
 const error = console.error
 
 function fetchProxy(): Promise<string> {
-    const url = "https://microsoft.github.io/jacdac-docs/devtools/proxy";
+    const url = "https://microsoft.github.io/jacdac-docs/devtools/proxy"
     return new Promise<string>((resolve, reject) => {
         https.get(url, res => {
             if (res.statusCode != 200)
                 reject(new Error(`proxy download failed (${res.statusCode})`))
-            res.setEncoding("utf8");
-            let body = "";
-            res.on("data", data => body += data );
-            res.on("end", () => resolve(body));
-            res.on("error", e => reject(e));
-        });    
+            res.setEncoding("utf8")
+            let body = ""
+            res.on("data", data => (body += data))
+            res.on("end", () => resolve(body))
+            res.on("error", e => reject(e))
+        })
     })
 }
 
@@ -66,12 +66,11 @@ export async function devToolsCommand(
         if (pathname === "/") {
             res.setHeader("Cache-control", "no-cache")
             res.setHeader("Content-type", "text/html")
-            res.end(proxyHtml);
-        }
-        else {
+            res.end(proxyHtml)
+        } else {
             res.statusCode = 404
         }
-    });
+    })
 
     // passive bus to sniff packets
     const bus = new JDBus(transports, {
