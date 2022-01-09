@@ -13,8 +13,6 @@
     "prettier": "prettier --write src/**/*.ts",
     "build:cli": "microbundle --no-compress",
     "watch:cli": "microbundle watch",
-    "build:web": "tsc public/index.ts",
-    "watch:web": "tsc public/index.ts --watch",
     "devtools": "yarn build:web && node ./dist/cli.js devtools",
     "watch": "microbundle watch",
     "publish:pi": "yarn build:cli && scp -r ../jacdac-ts/dist/* pi@192.168.0.131:/home/pi/nodejs/ && scp -r ./dist/* pi@192.168.0.131:/home/pi/nodejs/"
