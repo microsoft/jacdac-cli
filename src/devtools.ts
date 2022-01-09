@@ -12,14 +12,28 @@ import { createTransports, TransportsOptions } from "./transports"
 /* eslint-disable @typescript-eslint/no-var-requires */
 const WebSocket = require("faye-websocket")
 const http = require("http")
-const fs = require("fs")
+const https = require("https");
 const url = require("url")
-const path = require("path")
 const net = require("net")
 
 const log = console.log
 const debug = console.debug
 const error = console.error
+
+function fetchProxy(): Promise<string> {
+    const url = "https://microsoft.github.io/jacdac-docs/devtools/proxy";
+    return new Promise<string>((resolve, reject) => {
+        https.get(url, res => {
+            if (res.statusCode != 200)
+                reject(new Error(`proxy download failed (${res.statusCode})`))
+            res.setEncoding("utf8");
+            let body = "";
+            res.on("data", data => body += data );
+            res.on("end", () => resolve(body));
+            res.on("error", e => reject(e));
+        });    
+    })
+}
 
 export async function devToolsCommand(
     options?: {
@@ -34,52 +48,30 @@ export async function devToolsCommand(
 
     const transports = createTransports(options)
 
-    debug(`starting dev tools...`)
+    log(`Jacdac dev tools`)
     log(`   dashboard: http://localhost:${port}`)
     log(`   websocket: ws://localhost:${port}`)
     log(`   raw socket: tcp://localhost:${tcpPort}`)
 
+    // download proxy sources
+    //debug(`downloading proxy sources`)
+    const proxyHtml = await fetchProxy()
+
     // start http server
+    //debug(`starting proxy web server`)
     const clients: WebSocket[] = []
     const server = http.createServer(function (req, res) {
-        //debug(`${req.method} ${req.url}`)
-
-        // parse URL
         const parsedUrl = url.parse(req.url)
-        // extract URL path
-        let pathname = `.${parsedUrl.pathname}`
-        if (pathname === "./") pathname = "./index.html"
-        // based on the URL path, extract the file extension. e.g. .js, .doc, ...
-        const ext = path.parse(pathname).ext
-        // maps file extension to MIME typere
-        const map = {
-            ".ico": "image/x-icon",
-            ".html": "text/html",
-            ".js": "text/javascript",
+        const pathname = parsedUrl.pathname
+        if (pathname === "/") {
+            res.setHeader("Cache-control", "no-cache")
+            res.setHeader("Content-type", "text/html")
+            res.end(proxyHtml);
         }
-
-        const fname = path.join(__dirname, "../public", pathname)
-        fs.exists(fname, exist => {
-            if (!exist) {
-                // if the file is not found, return 404
-                res.statusCode = 404
-                debug(`not found`)
-                return
-            }
-
-            // read file from file system
-            fs.readFile(fname, (err, data) => {
-                if (err) {
-                    res.statusCode = 500
-                    debug(`error reading file`)
-                } else {
-                    // if the file is found, set Content-type and send data
-                    res.setHeader("Content-type", map[ext] || "text/plain")
-                    res.end(data)
-                }
-            })
-        })
-    })
+        else {
+            res.statusCode = 404
+        }
+    });
 
     // passive bus to sniff packets
     const bus = new JDBus(transports, {
