@@ -25,7 +25,7 @@ async function mainCli() {
         .option("--sensors", "stream sensors data")
         .option("-u, --usb", "listen to Jacdac over USB")
         .option("-s, --serial", "listen to Jacdac over SERIAL")
-        //.option("-i, --spi", "listen to Jacdac over SPI")
+        .option("-i, --spi", "listen to Jacdac over SPI")
         .option("-p, --packets", "show all packets")
         .option("--devices <string>", "regular expression filter for devices")
         .option("--services <string>", "regular expression filter for services")
@@ -38,7 +38,7 @@ async function mainCli() {
         .option("-w, --internet", "allow connections from non-localhost")
         .option("-u, --usb", "listen to Jacdac over USB")
         .option("-s, --serial", "listen to Jacdac over SERIAL")
-        //.option("-i, --spi", "listen to Jacdac over SPI")
+        .option("-i, --spi", "listen to Jacdac over SPI")
         .action(devToolsCommand)
 
     await program.parseAsync(process.argv)
