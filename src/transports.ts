@@ -13,6 +13,7 @@ export interface TransportsOptions {
     serial?: boolean
     ws?: boolean
     port?: number
+    spi?: boolean
 }
 
 export function createTransports(options: TransportsOptions) {
