@@ -11,11 +11,10 @@
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --write src/**/*.ts",
-    "build:cli": "microbundle --no-compress",
-    "watch:cli": "microbundle watch",
-    "devtools": "yarn build:web && node ./dist/cli.js devtools",
+    "build": "microbundle --no-compress",
     "watch": "microbundle watch",
-    "publish:pi": "yarn build:cli && scp -r ../jacdac-ts/dist/* pi@192.168.0.131:/home/pi/nodejs/ && scp -r ./dist/* pi@192.168.0.131:/home/pi/nodejs/"
+    "devtools": "yarn build:web && node ./dist/cli.js devtools",
+    "publish:pi": "yarn build && scp -r ../jacdac-ts/dist/* pi@192.168.0.131:/home/pi/nodejs/ && scp -r ./dist/* pi@192.168.0.131:/home/pi/nodejs/"
   },
   "repository": {
     "type": "git",
