@@ -2,6 +2,7 @@ import {
     createNodeUSBOptions,
     createNodeWebSerialTransport,
     createUSBTransport,
+    createNodeSPITransport,
     Transport,
 } from "jacdac-ts"
 const log = console.log
