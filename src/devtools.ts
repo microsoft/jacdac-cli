@@ -7,6 +7,7 @@ import {
     printPacket,
     serializeToTrace,
     createProxyBridge,
+    toHex,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
 
@@ -83,7 +84,10 @@ export async function devToolsCommand(
     if (transports.length === 0)
         bus.passive = true
     else
-        bus.addBridge(createProxyBridge(data => clients.forEach(c => c.send(data))))
+        bus.addBridge(createProxyBridge(data => {
+            console.log(`send ${toHex(data)} to ${clients.length} clients`)
+            clients.forEach(c => c.send(data))
+        }))
 
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
