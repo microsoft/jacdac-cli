@@ -6,7 +6,7 @@ import {
     PACKET_PROCESS,
     printPacket,
     serializeToTrace,
-    Transport,
+    createProxyTransport,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
 
@@ -36,23 +36,6 @@ function fetchProxy(): Promise<string> {
     })
 }
 
-class ProxyTransport extends Transport {
-    constructor(readonly sendPacket: (pkt: Packet) => void) {
-        super("proxy")
-    }
-    protected async transportSendPacketAsync(p: Packet): Promise<void> {
-        this.sendPacket(p);
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected transportConnectAsync(background?: boolean): Promise<void> {
-        return Promise.resolve()
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected async transportDisconnectAsync(background?: boolean): Promise<void> {
-        return Promise.resolve()
-    }
-}
-
 export async function devToolsCommand(
     options?: {
         packets?: boolean
@@ -78,7 +61,7 @@ export async function devToolsCommand(
     const clients: WebSocket[] = []
 
     const transports = createTransports(options)
-    transports.push(new ProxyTransport(pkt => {
+    transports.push(createProxyTransport(pkt => {
         const data = pkt.toBuffer()
         clients.forEach(c => c.send(data))        
     }))
