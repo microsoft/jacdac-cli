@@ -79,9 +79,11 @@ export async function devToolsCommand(
         disableRoleManager: true,
         proxy: true,
     })
-    bus.addBridge(createProxyBridge(data => clients.forEach(c => c.send(data))))
     bus.on(ERROR, e => error(e))
-    bus.passive = transports.length === 1
+    if (transports.length === 0)
+        bus.passive = true
+    else
+        bus.addBridge(createProxyBridge(data => clients.forEach(c => c.send(data))))
 
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
