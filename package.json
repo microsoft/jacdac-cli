@@ -36,23 +36,23 @@
   "dependencies": {
     "commander": "^8.3.0",
     "faye-websocket": "^0.11.4",
-    "jacdac-ts": "^1.24.4"
+    "jacdac-ts": "^1.24.5"
   },
   "devDependencies": {
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.9.0",
-    "@typescript-eslint/parser": "^5.9.0",
-    "eslint": "^8.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "eslint": "^8.7.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "microbundle": "^0.14.2",
     "prettier": "^2.5.1",
-    "semantic-release": "^18.0.1",
+    "semantic-release": "^19.0.2",
     "tslint-microsoft-contrib": "^6.2.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.5"
   },
   "peerDependencies": {
     "serialport": "^9.2.8",
