@@ -2,6 +2,7 @@ import {
     createNodeUSBOptions,
     createNodeWebSerialTransport,
     createUSBTransport,
+    createNodeSPITransport,
     Transport,
 } from "jacdac-ts"
 const log = console.log
@@ -12,6 +13,7 @@ export interface TransportsOptions {
     serial?: boolean
     ws?: boolean
     port?: number
+    spi?: boolean
 }
 
 export function createTransports(options: TransportsOptions) {
@@ -30,14 +32,12 @@ export function createTransports(options: TransportsOptions) {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         transports.push(createNodeWebSerialTransport(require("serialport")))
     }
-    /*
     if (options.spi) {
         log(`adding SPI transport`)
         log(`make sure to install the rpio package`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         transports.push(createNodeSPITransport(require("rpio")))
     }
-    */
 
     return transports
 }

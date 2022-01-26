@@ -6,6 +6,8 @@ import {
     PACKET_PROCESS,
     printPacket,
     serializeToTrace,
+    createProxyBridge,
+    toHex,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
 
@@ -46,8 +48,6 @@ export async function devToolsCommand(
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
 
-    const transports = createTransports(options)
-
     log(`Jacdac dev tools`)
     log(`   dashboard: http://localhost:${port}`)
     log(`   websocket: ws://localhost:${port}`)
@@ -60,6 +60,7 @@ export async function devToolsCommand(
     // start http server
     //debug(`starting proxy web server`)
     const clients: WebSocket[] = []
+
     const server = http.createServer(function (req, res) {
         const parsedUrl = url.parse(req.url)
         const pathname = parsedUrl.pathname
@@ -73,19 +74,20 @@ export async function devToolsCommand(
     })
 
     // passive bus to sniff packets
+    const bridge = createProxyBridge(data =>
+        clients.forEach(c => c.send(Buffer.from(data)))
+    )
+    const transports = createTransports(options)
     const bus = new JDBus(transports, {
         client: false,
         disableRoleManager: true,
         proxy: true,
     })
     bus.on(ERROR, e => error(e))
-    bus.passive = transports.length === 0
-
+    bus.addBridge(bridge)
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
-        const pkt = Packet.fromBinary(data, bus.timestamp)
-        pkt.sender = sender
-        bus.processPacket(pkt)
+        bridge.receiveFrameOrPacket(data, sender)
     }
 
     function removeClient(client: WebSocket) {

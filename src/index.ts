@@ -23,9 +23,12 @@ async function mainCli() {
 
     createCommand("stream")
         .option("--sensors", "stream sensors data")
-        .option("-u, --usb", "listen to Jacdac over USB")
-        .option("-s, --serial", "listen to Jacdac over SERIAL")
-        //.option("-i, --spi", "listen to Jacdac over SPI")
+        .option("-u, --usb", "listen to Jacdac over USB (requires usb)")
+        .option(
+            "-s, --serial",
+            "listen to Jacdac over SERIAL (requires serialport)"
+        )
+        .option("-i, --spi", "listen to Jacdac over SPI (requires rpio, experimental)")
         .option("-p, --packets", "show all packets")
         .option("--devices <string>", "regular expression filter for devices")
         .option("--services <string>", "regular expression filter for services")
@@ -36,9 +39,12 @@ async function mainCli() {
     createCommand("devtools")
         .option("-p, --packets", "show all packets")
         .option("-w, --internet", "allow connections from non-localhost")
-        .option("-u, --usb", "listen to Jacdac over USB")
-        .option("-s, --serial", "listen to Jacdac over SERIAL")
-        //.option("-i, --spi", "listen to Jacdac over SPI")
+        .option("-u, --usb", "listen to Jacdac over USB (requires usb)")
+        .option(
+            "-s, --serial",
+            "listen to Jacdac over SERIAL (requires serialport)"
+        )
+        .option("-i, --spi", "listen to Jacdac over SPI (requires rpio, experimental)")
         .action(devToolsCommand)
 
     await program.parseAsync(process.argv)
