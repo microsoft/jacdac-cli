@@ -81,13 +81,13 @@ export async function devToolsCommand(
         proxy: true,
     })
     bus.on(ERROR, e => error(e))
-    if (transports.length === 0)
-        bus.passive = true
+    if (transports.length === 0) bus.passive = true
     else
-        bus.addBridge(createProxyBridge(data => {
-            console.log(`send ${toHex(data)} to ${clients.length} clients`)
-            clients.forEach(c => c.send(Buffer.from(data)))
-        }))
+        bus.addBridge(
+            createProxyBridge(data =>
+                clients.forEach(c => c.send(Buffer.from(data)))
+            )
+        )
 
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
