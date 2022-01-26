@@ -74,6 +74,9 @@ export async function devToolsCommand(
     })
 
     // passive bus to sniff packets
+    const bridge = createProxyBridge(data =>
+        clients.forEach(c => c.send(Buffer.from(data)))
+    )
     const transports = createTransports(options)
     const bus = new JDBus(transports, {
         client: false,
@@ -81,19 +84,10 @@ export async function devToolsCommand(
         proxy: true,
     })
     bus.on(ERROR, e => error(e))
-    if (transports.length === 0) bus.passive = true
-    else
-        bus.addBridge(
-            createProxyBridge(data =>
-                clients.forEach(c => c.send(Buffer.from(data)))
-            )
-        )
-
+    bus.addBridge(bridge)
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
-        const pkt = Packet.fromBinary(data, bus.timestamp)
-        pkt.sender = sender
-        bus.processPacket(pkt)
+        bridge.receiveFrameOrPacket(data, sender)
     }
 
     function removeClient(client: WebSocket) {
