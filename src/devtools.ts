@@ -86,7 +86,7 @@ export async function devToolsCommand(
     else
         bus.addBridge(createProxyBridge(data => {
             console.log(`send ${toHex(data)} to ${clients.length} clients`)
-            clients.forEach(c => c.send(data))
+            clients.forEach(c => c.send(Buffer.from(data)))
         }))
 
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
