@@ -102,7 +102,7 @@ export async function devToolsCommand(
         proxy: true,
     })
     bus.on(ERROR, e => error(e))
-    bus.passive = transports.length === 0
+    bus.passive = transports.length === 1
 
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
