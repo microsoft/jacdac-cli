@@ -28,7 +28,10 @@ async function mainCli() {
             "-s, --serial",
             "listen to Jacdac over SERIAL (requires serialport)"
         )
-        .option("-i, --spi", "listen to Jacdac over SPI (requires rpio, experimental)")
+        .option(
+            "-i, --spi",
+            "listen to Jacdac over SPI (requires rpio, experimental)"
+        )
         .option("-p, --packets", "show all packets")
         .option("--devices <string>", "regular expression filter for devices")
         .option("--services <string>", "regular expression filter for services")
@@ -44,7 +47,10 @@ async function mainCli() {
             "-s, --serial",
             "listen to Jacdac over SERIAL (requires serialport)"
         )
-        .option("-i, --spi", "listen to Jacdac over SPI (requires rpio, experimental)")
+        .option(
+            "-i, --spi",
+            "listen to Jacdac over SPI (requires rpio, experimental)"
+        )
         .action(devToolsCommand)
 
     await program.parseAsync(process.argv)
