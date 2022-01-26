@@ -6,6 +6,7 @@ import {
     PACKET_PROCESS,
     printPacket,
     serializeToTrace,
+    Transport,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
 
@@ -35,6 +36,23 @@ function fetchProxy(): Promise<string> {
     })
 }
 
+class ProxyTransport extends Transport {
+    constructor(readonly sendPacket: (pkt: Packet) => void) {
+        super("proxy")
+    }
+    protected async transportSendPacketAsync(p: Packet): Promise<void> {
+        this.sendPacket(p);
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected transportConnectAsync(background?: boolean): Promise<void> {
+        return Promise.resolve()
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected async transportDisconnectAsync(background?: boolean): Promise<void> {
+        return Promise.resolve()
+    }
+}
+
 export async function devToolsCommand(
     options?: {
         packets?: boolean
@@ -45,8 +63,6 @@ export async function devToolsCommand(
     const port = 8081
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
-
-    const transports = createTransports(options)
 
     log(`Jacdac dev tools`)
     log(`   dashboard: http://localhost:${port}`)
@@ -60,6 +76,13 @@ export async function devToolsCommand(
     // start http server
     //debug(`starting proxy web server`)
     const clients: WebSocket[] = []
+
+    const transports = createTransports(options)
+    transports.push(new ProxyTransport(pkt => {
+        const data = pkt.toBuffer()
+        clients.forEach(c => c.send(data))        
+    }))
+
     const server = http.createServer(function (req, res) {
         const parsedUrl = url.parse(req.url)
         const pathname = parsedUrl.pathname
