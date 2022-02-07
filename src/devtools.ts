@@ -32,8 +32,8 @@ function fetchProxy(): Promise<string> {
             let body = ""
             res.on("data", data => (body += data))
             res.on("end", () => resolve(body))
-            res.on("error", e => reject(e))
-        })
+            res.on("error", reject)
+        }).on("error", reject)
     })
 }
 
