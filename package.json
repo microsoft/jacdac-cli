@@ -37,7 +37,8 @@
   "dependencies": {
     "commander": "^8.3.0",
     "faye-websocket": "^0.11.4",
-    "jacdac-ts": "^1.24.8"
+    "jacdac-ts": "^1.24.8",
+    "usb": "^2.1.1"
   },
   "devDependencies": {
     "@semantic-release/exec": "^6.0.3",

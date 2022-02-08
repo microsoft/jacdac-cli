@@ -1568,7 +1568,7 @@
   resolved "https://registry.yarnpkg.com/@types/w3c-web-serial/-/w3c-web-serial-1.0.2.tgz#8bf21f90b40dda6d2e2e6b188417b6bd66525d03"
   integrity sha512-Ftx4BtLxgAnel7V7GbHylCYjSq827A+jeEE3SnTS7huCGUN0pSwUn+CchTCT9TkZj9w+NVMUq4Bk2R0GvUNmAQ==
 
-"@types/w3c-web-usb@^1.0.5":
+"@types/w3c-web-usb@^1.0.4", "@types/w3c-web-usb@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/w3c-web-usb/-/w3c-web-usb-1.0.5.tgz#90284d17f35de981670c85d29053ae8b88fa5543"
   integrity sha512-dYolx2XWesl1TMu+1BjtjU6eC6c2zZ2VDKhjU4f/mtR3+UBfMW6h1tPCQt7leY5Y8JBg0Fe/mMnoDMkPPNX9sw==
@@ -4567,6 +4567,11 @@ nerf-dart@^1.0.0:
   resolved "https://registry.npmjs.org/nerf-dart/-/nerf-dart-1.0.0.tgz"
   integrity sha1-5tq3/r9a2Bbqgc9cYpxaDr3nLBo=
 
+node-addon-api@^4.2.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-4.3.0.tgz#52a1a0b475193e0928e98e0426a0d1254782b77f"
+  integrity sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==
+
 node-emoji@^1.11.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/node-emoji/-/node-emoji-1.11.0.tgz#69a0150e6946e2f115e9d7ea4df7971e2628301c"
@@ -4580,6 +4585,11 @@ node-fetch@^2.6.1:
   integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
   dependencies:
     whatwg-url "^5.0.0"
+
+node-gyp-build@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.3.0.tgz#9f256b03e5826150be39c764bf51e993946d71a3"
+  integrity sha512-iWjXZvmboq0ja1pUGULQBexmxq8CV4xBhX7VDOTbL7ZR4FOowwY/VOtRxBN/yKxmdGoIp4j5ysNT4u3S2pDQ3Q==
 
 node-gyp@^8.2.0, node-gyp@^8.4.1:
   version "8.4.1"
@@ -6536,6 +6546,15 @@ url-join@^4.0.0:
   version "4.0.1"
   resolved "https://registry.npmjs.org/url-join/-/url-join-4.0.1.tgz"
   integrity sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==
+
+usb@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/usb/-/usb-2.1.1.tgz#ec4a71fb040535a5afc376555a3ca8b148e0faa9"
+  integrity sha512-wMCHWGBCBi4ki/wrmUqWw4u3DmecFxuIQbket/O0uO7b7IGQjPReQFBeUP10lz2yn8H2B174K66MylTE/kswnQ==
+  dependencies:
+    "@types/w3c-web-usb" "^1.0.4"
+    node-addon-api "^4.2.0"
+    node-gyp-build "^4.3.0"
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
