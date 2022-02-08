@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { program } = require("commander")
+import { program } from "commander"
 import type { CommandOptions } from "commander"
 import { devToolsCommand } from "./devtools"
 import { parseCommand } from "./parse"

@@ -14,6 +14,7 @@
     "build": "microbundle --no-compress",
     "watch": "microbundle watch",
     "devtools": "yarn build && node ./dist/cli.js devtools",
+    "test:usb": "yarn build && node ./dist/cli.js stream --usb",
     "publish:pi": "yarn build && scp -r ../jacdac-ts/dist/* pi@192.168.0.131:/home/pi/nodejs/ && scp -r ./dist/* pi@192.168.0.131:/home/pi/nodejs/"
   },
   "repository": {
@@ -34,16 +35,16 @@
   },
   "homepage": "https://github.com/microsoft/jacdac-cli#readme",
   "dependencies": {
-    "commander": "^8.3.0",
+    "commander": "^9.0.0",
     "faye-websocket": "^0.11.4",
-    "jacdac-ts": "^1.24.8"
+    "jacdac-ts": "^1.24.9"
   },
   "devDependencies": {
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.10.1",
-    "@typescript-eslint/parser": "^5.10.1",
-    "eslint": "^8.7.0",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "eslint": "^8.8.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
