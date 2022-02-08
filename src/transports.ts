@@ -19,22 +19,17 @@ export interface TransportsOptions {
 export function createTransports(options: TransportsOptions) {
     const transports: Transport[] = []
     if (options.usb) {
-        log(`adding USB transport`)
-        log(`make sure to install the webusb package`)
-        debug(
-            `on windows, node.js will crash if you haven't setup libusb properly...`
-        )
-        transports.push(createUSBTransport(createNodeUSBOptions()))
+        log(`adding USB transport (requires "usb" package)`)
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        transports.push(createUSBTransport(createNodeUSBOptions(require("usb").WebUSB)))
     }
     if (options.serial) {
-        log(`adding serial transport`)
-        log(`make sure to install the serialport package`)
+        log(`adding serial transport (requires "serialport" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         transports.push(createNodeWebSerialTransport(require("serialport")))
     }
     if (options.spi) {
-        log(`adding SPI transport`)
-        log(`make sure to install the rpio package`)
+        log(`adding SPI transport (requires "rpio" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         transports.push(createNodeSPITransport(require("rpio")))
     }
