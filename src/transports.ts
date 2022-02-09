@@ -21,17 +21,21 @@ export function createTransports(options: TransportsOptions) {
     if (options.usb) {
         log(`adding USB transport (requires "usb" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        transports.push(createUSBTransport(createNodeUSBOptions(require("usb").WebUSB)))
+        const usb = require("usb")
+        const options = createNodeUSBOptions(usb.WebUSB)
+        transports.push(createUSBTransport(options))
     }
     if (options.serial) {
         log(`adding serial transport (requires "serialport" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        transports.push(createNodeWebSerialTransport(require("serialport")))
+        const SerialPort = require("serialport")
+        transports.push(createNodeWebSerialTransport(SerialPort))
     }
     if (options.spi) {
         log(`adding SPI transport (requires "rpio" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        transports.push(createNodeSPITransport(require("rpio")))
+        const RPIO = require("rpio")
+        transports.push(createNodeSPITransport(RPIO))
     }
 
     return transports
