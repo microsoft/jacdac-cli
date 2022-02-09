@@ -6875,10 +6875,10 @@ url-join@^4.0.0:
   resolved "https://registry.npmjs.org/url-join/-/url-join-4.0.1.tgz"
   integrity sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==
 
-usb@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/usb/-/usb-2.1.1.tgz#ec4a71fb040535a5afc376555a3ca8b148e0faa9"
-  integrity sha512-wMCHWGBCBi4ki/wrmUqWw4u3DmecFxuIQbket/O0uO7b7IGQjPReQFBeUP10lz2yn8H2B174K66MylTE/kswnQ==
+usb@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/usb/-/usb-2.1.2.tgz#8300e902efde648fe7a796a05578d35b02d2711a"
+  integrity sha512-0guTB8ywiH2MyZLCnzdg5kdUvUmS3wCBNV3a05Ul1jo2DuqrdjauJeN4F3O8LNoxB+hFsy6hcN+Rd0hjaOO2DQ==
   dependencies:
     "@types/w3c-web-usb" "^1.0.4"
     node-addon-api "^4.2.0"
