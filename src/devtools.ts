@@ -7,7 +7,6 @@ import {
     printPacket,
     serializeToTrace,
     createProxyBridge,
-    toHex,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
 
@@ -125,7 +124,7 @@ export async function devToolsCommand(
             } catch {
                 try {
                     client.end()
-                } catch {} // eslint-disable-line no-empty
+                } catch { } // eslint-disable-line no-empty
             }
         }
         clients.push(client)

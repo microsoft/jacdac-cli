@@ -6,7 +6,7 @@ import {
     Transport,
 } from "jacdac-ts"
 const log = console.log
-const debug = console.debug
+//const debug = console.debug
 
 export interface TransportsOptions {
     usb?: boolean
@@ -19,24 +19,23 @@ export interface TransportsOptions {
 export function createTransports(options: TransportsOptions) {
     const transports: Transport[] = []
     if (options.usb) {
-        log(`adding USB transport`)
-        log(`make sure to install the webusb package`)
-        debug(
-            `on windows, node.js will crash if you haven't setup libusb properly...`
-        )
-        transports.push(createUSBTransport(createNodeUSBOptions()))
+        log(`adding USB transport (requires "usb" package)`)
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const usb = require("usb")
+        const options = createNodeUSBOptions(usb.WebUSB)
+        transports.push(createUSBTransport(options))
     }
     if (options.serial) {
-        log(`adding serial transport`)
-        log(`make sure to install the serialport package`)
+        log(`adding serial transport (requires "serialport" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        transports.push(createNodeWebSerialTransport(require("serialport")))
+        const SerialPort = require("serialport")
+        transports.push(createNodeWebSerialTransport(SerialPort))
     }
     if (options.spi) {
-        log(`adding SPI transport`)
-        log(`make sure to install the rpio package`)
+        log(`adding SPI transport (requires "rpio" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        transports.push(createNodeSPITransport(require("rpio")))
+        const RPIO = require("rpio")
+        transports.push(createNodeSPITransport(RPIO))
     }
 
     return transports
