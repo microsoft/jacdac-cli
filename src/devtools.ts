@@ -24,15 +24,19 @@ const error = console.error
 function fetchProxy(): Promise<string> {
     const url = "https://microsoft.github.io/jacdac-docs/devtools/proxy"
     return new Promise<string>((resolve, reject) => {
-        https.get(url, res => {
-            if (res.statusCode != 200)
-                reject(new Error(`proxy download failed (${res.statusCode})`))
-            res.setEncoding("utf8")
-            let body = ""
-            res.on("data", data => (body += data))
-            res.on("end", () => resolve(body))
-            res.on("error", reject)
-        }).on("error", reject)
+        https
+            .get(url, res => {
+                if (res.statusCode != 200)
+                    reject(
+                        new Error(`proxy download failed (${res.statusCode})`)
+                    )
+                res.setEncoding("utf8")
+                let body = ""
+                res.on("data", data => (body += data))
+                res.on("end", () => resolve(body))
+                res.on("error", reject)
+            })
+            .on("error", reject)
     })
 }
 
@@ -124,7 +128,7 @@ export async function devToolsCommand(
             } catch {
                 try {
                     client.end()
-                } catch { } // eslint-disable-line no-empty
+                } catch {} // eslint-disable-line no-empty
             }
         }
         clients.push(client)
