@@ -6,7 +6,7 @@ import {
     Transport,
 } from "jacdac-ts"
 const log = console.log
-const debug = console.debug
+//const debug = console.debug
 
 export interface TransportsOptions {
     usb?: boolean
