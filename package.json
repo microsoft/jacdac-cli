@@ -15,7 +15,7 @@
     "watch": "microbundle watch",
     "devtools": "yarn build && node ./dist/cli.js devtools",
     "devtools:usb": "yarn build && node ./dist/cli.js devtools --usb",
-    "test:usb": "yarn build && node ./dist/cli.js stream --usb",
+    "test:usb": "yarn build && node ./dist/cli.js stream --usb --packets --sensors",
     "publish:pi": "yarn build && scp -r ../jacdac-ts/dist/* pi@192.168.0.131:/home/pi/nodejs/ && scp -r ./dist/* pi@192.168.0.131:/home/pi/nodejs/"
   },
   "repository": {
