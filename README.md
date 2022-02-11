@@ -26,6 +26,12 @@ The rest of this page is for developers of the `jacdac-ts` library.
 sudo npm install -g jacdac-cli
 ```
 
+If the native module installation fails, try adding `--unsafe`
+
+```bash
+sudo npm install -g jacdac-cli --unsafe
+```
+
 ## Usage
 
 ### `jacdac parse`
