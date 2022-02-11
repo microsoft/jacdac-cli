@@ -4024,10 +4024,10 @@ issue-parser@^6.0.0:
     lodash.isstring "^4.0.1"
     lodash.uniqby "^4.7.0"
 
-jacdac-ts@^1.24.14:
-  version "1.24.14"
-  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.24.14.tgz#819ade07766b980d18ddeb73d6dcd32f8a10f2e8"
-  integrity sha512-26RLiwBSaE8GbrTjcH+9N45xoFjGoRWwwCLFPuW4CVQyqQ7tMIRHVhGXUOf9tFN1NR51ATWUsRw61S6rNkaIzw==
+jacdac-ts@^1.24.15:
+  version "1.24.15"
+  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.24.15.tgz#011da45a2bdad5a24f4c59fbe1f3ee9a7bec90b2"
+  integrity sha512-5aZVs6nkSAQJ+G2IdDbZu1uhmESjo3NKDZMkCHV2hjmcDGZX/veXMTEjdEis16e6zWwEgL0h+JIjjcDVgcXxFQ==
   dependencies:
     "@types/node" "^17.0.16"
     "@types/w3c-web-serial" "^1.0.2"
