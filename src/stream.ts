@@ -27,8 +27,6 @@ export async function streamCommand(
         bus.on(PACKET_PROCESS, (pkt: Packet) => {
             const str = printPacket(pkt, {
                 showTime: true,
-                skipRepeatedAnnounce: true,
-                skipResetIn: true,
             })
             if (str) debug(serializeToTrace(pkt, 0))
         })
