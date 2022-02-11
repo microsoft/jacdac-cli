@@ -22,8 +22,8 @@ The rest of this page is for developers of the `jacdac-ts` library.
 -   Install [nodejs.org](https://nodejs.org/) 14+
 -   Install the tool globally.
 
-```
-npm install -g jacdac-cli
+```bash
+sudo npm install -g jacdac-cli
 ```
 
 ## Usage
