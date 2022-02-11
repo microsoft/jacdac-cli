@@ -35,6 +35,7 @@ export function createTransports(options: TransportsOptions) {
         log(`adding SPI transport (requires "rpio" package)`)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const RPIO = require("rpio")
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const SpiDev = require("spi-device")
         transports.push(createNodeSPITransport(RPIO, SpiDev))
     }
