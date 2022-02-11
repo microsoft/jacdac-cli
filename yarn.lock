@@ -4735,7 +4735,7 @@ mute-stream@~0.0.4:
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nan@^2.14.1, nan@^2.15.0:
+nan@^2.14.1, nan@^2.14.2, nan@^2.15.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
@@ -6333,6 +6333,14 @@ spdx-license-ids@^3.0.0:
   version "3.0.10"
   resolved "https://registry.npmjs.org/spdx-license-ids/-/spdx-license-ids-3.0.10.tgz"
   integrity sha512-oie3/+gKf7QtpitB0LYLETe+k8SifzsX4KixvpOsbI6S0kRiRQ5MKOio8eMSAKQ17N06+wdEOXRiId+zOxo0hA==
+
+spi-device@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/spi-device/-/spi-device-3.1.2.tgz#ba0f4b79638e8cb9a64840fe38176666cffb482e"
+  integrity sha512-5ubnDcpFjMAiO32j7Jrg/EMSmnInoh9LFzh/abVSJxTjCbmUQdRDVgNG5mRlOpMZc+SCHNSzqKVHGe8n0mVKwA==
+  dependencies:
+    bindings "^1.5.0"
+    nan "^2.14.2"
 
 split2@^3.0.0:
   version "3.2.2"
