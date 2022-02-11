@@ -19,7 +19,6 @@ export async function streamCommand(
         sensors?: boolean
     } & TransportsOptions = {}
 ) {
-    if (!options.usb && !options.serial) options.usb = options.serial = true
     const transports = createTransports(options)
     log(`starting bus...`)
     const bus = new JDBus(transports, { client: false })
