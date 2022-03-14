@@ -7,9 +7,11 @@ import {
     printPacket,
     serializeToTrace,
     createProxyBridge,
+    randomDeviceId,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
 
+const SENDER_FIELD = "__jacdac_sender"
 /* eslint-disable @typescript-eslint/no-var-requires */
 const WebSocket = require("faye-websocket")
 const http = require("http")
@@ -77,9 +79,12 @@ export async function devToolsCommand(
     })
 
     // passive bus to sniff packets
-    const bridge = createProxyBridge(data =>
-        clients.forEach(c => c.send(Buffer.from(data)))
-    )
+    const bridge = createProxyBridge((data, sender) => {
+        //console.log(sender)
+        clients
+            .filter(c => c[SENDER_FIELD] !== sender)
+            .forEach(c => c.send(Buffer.from(data)))
+    })
     const transports = createTransports(options)
     const bus = new JDBus(transports, {
         client: false,
@@ -103,9 +108,11 @@ export async function devToolsCommand(
         // is this a socket?
         if (WebSocket.isWebSocket(request)) {
             const client = new WebSocket(request, socket, body)
-            const sender = Math.random() + ""
+            const sender = "ws" + randomDeviceId()
+            // store sender id to deduped packet
+            client[SENDER_FIELD] = sender
             clients.push(client)
-            log(`client: connected (${clients.length} clients)`)
+            log(`client: connected (${sender}, ${clients.length} clients)`)
             client.on("message", event => {
                 const { data } = event
                 clients.filter(c => c !== client).forEach(c => c.send(data))
@@ -117,7 +124,8 @@ export async function devToolsCommand(
     })
 
     const tcpServer = net.createServer(client => {
-        const sender = Math.random() + ""
+        const sender = "tcp" + randomDeviceId()
+        client[SENDER_FIELD] = sender
         client.send = (pkt0: Buffer) => {
             const pkt = new Uint8Array(pkt0)
             const b = new Uint8Array(1 + pkt.length)
@@ -132,7 +140,7 @@ export async function devToolsCommand(
             }
         }
         clients.push(client)
-        log(`client: connected (${clients.length} clients)`)
+        log(`client: connected (${sender} ${clients.length} clients)`)
         let acc: Uint8Array
         client.on("data", (buf: Uint8Array) => {
             if (acc) {

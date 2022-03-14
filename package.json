@@ -14,6 +14,7 @@
     "build": "microbundle --no-compress",
     "watch": "microbundle watch",
     "devtools": "yarn build && node ./dist/cli.js devtools",
+    "devtools:serial": "yarn build && node ./dist/cli.js devtools --serial",
     "devtools:usb": "yarn build && node ./dist/cli.js devtools --usb",
     "test:usb": "yarn build && node ./dist/cli.js stream --usb --packets --sensors",
     "publish:pi": "yarn build && scp -r ../jacdac-ts/dist/* pi@192.168.0.131:/home/pi/gh/jacdac-cli/node_modules/jacdac-ts/dist && scp -r ./dist/* pi@192.168.0.131:/home/pi/gh/jacdac-cli/dist"
@@ -38,7 +39,7 @@
   "dependencies": {
     "commander": "^9.0.0",
     "faye-websocket": "^0.11.4",
-    "jacdac-ts": "^1.24.16"
+    "jacdac-ts": "^1.24.19"
   },
   "devDependencies": {
     "@semantic-release/exec": "^6.0.3",
