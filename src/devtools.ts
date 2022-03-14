@@ -8,6 +8,7 @@ import {
     serializeToTrace,
     createProxyBridge,
     randomDeviceId,
+    PACKET_RECEIVE_NO_DEVICE,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
 
@@ -18,6 +19,7 @@ const http = require("http")
 const https = require("https")
 const url = require("url")
 const net = require("net")
+const fs = require("fs")
 
 const log = console.log
 const debug = console.debug
@@ -46,12 +48,16 @@ export async function devToolsCommand(
     options?: {
         packets?: boolean
         internet?: boolean
+        log?: string
     } & TransportsOptions
 ) {
     const { packets, internet } = options || {}
+    const logFile = options?.log
     const port = 8081
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
+
+    if (logFile) fs.writeFileSync(logFile, "")
 
     log(`Jacdac dev tools`)
     log(`   dashboard: http://localhost:${port}`)
@@ -170,14 +176,17 @@ export async function devToolsCommand(
         client.on("error", ev => error(ev))
     })
 
-    if (packets)
-        bus.on(PACKET_PROCESS, (pkt: Packet) => {
+    if (packets || logFile)
+        bus.on([PACKET_RECEIVE_NO_DEVICE, PACKET_PROCESS], (pkt: Packet) => {
+            const serialized = serializeToTrace(pkt, 0)
+            if (logFile) fs.appendFileSync(logFile, serialized + "\n")
+            // don't print everything...
             const str = printPacket(pkt, {
                 showTime: true,
                 skipRepeatedAnnounce: true,
                 skipResetIn: true,
             })
-            if (str) debug(serializeToTrace(pkt, 0))
+            if (str && packets) debug(serialized)
         })
 
     bus.start()
