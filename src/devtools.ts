@@ -94,6 +94,7 @@ export async function devToolsCommand(
         disableRoleManager: true,
         proxy: true,
     })
+    bus.passive = true
     bus.on(ERROR, e => error(e))
     bus.addBridge(bridge)
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
@@ -118,7 +119,6 @@ export async function devToolsCommand(
             log(`client: connected (${sender}, ${clients.length} clients)`)
             client.on("message", event => {
                 const { data } = event
-                clients.filter(c => c !== client).forEach(c => c.send(data))
                 processPacket(data, sender)
             })
             client.on("close", () => removeClient(client))
@@ -158,10 +158,6 @@ export async function devToolsCommand(
                     const pkt = buf.slice(1, endp)
                     if (buf.length > endp) buf = buf.slice(endp)
                     else buf = null
-                    clients
-                        .filter(c => c !== client)
-                        // this should really be pkt.buffer to get ArrayBuffer but faye-websocket doesn't like that
-                        .forEach(c => c.send(Buffer.from(pkt)))
                     processPacket(pkt, sender)
                 } else {
                     acc = buf
