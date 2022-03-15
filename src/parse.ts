@@ -21,6 +21,11 @@ export async function parseCommand(file: string) {
     bus.on(PACKET_RECEIVE_ANNOUNCE, pkt => log(printPacket(pkt, opts)))
     bus.on(PACKET_RECEIVE_NO_DEVICE, pkt => log(printPacket(pkt, opts)))
     const text = readFileSync(file, "utf8")
-    replayLogicLog(bus, parseLogicLog(text), Number.POSITIVE_INFINITY)
+    const frames = parseLogicLog(text)
+    if (frames.length == 0) {
+        console.error("no packets found")
+        process.exit(1)
+    }
+    replayLogicLog(bus, frames, Number.POSITIVE_INFINITY)
     setTimeout(() => process.exit(0), 500)
 }
