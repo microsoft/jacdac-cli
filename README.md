@@ -44,7 +44,7 @@ jacdac parse log.txt
 
 ### `jacdac devtools`
 
-Starts a websocket server that acts as a bridge between a web dashboard and a client implementation. 
+Starts websocket and native socket server that acts as a bridge between a web dashboard and a client implementation. 
 This allows to test a native client using the latest version of the web developer tools.
 This command will work in [GitHub codespaces](https://github.com/features/codespaces). 
 

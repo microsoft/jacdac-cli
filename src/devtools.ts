@@ -65,11 +65,9 @@ export async function devToolsCommand(
     log(`   raw socket: tcp://localhost:${tcpPort}`)
 
     // download proxy sources
-    //debug(`downloading proxy sources`)
     const proxyHtml = await fetchProxy()
 
     // start http server
-    //debug(`starting proxy web server`)
     const clients: WebSocket[] = []
 
     const server = http.createServer(function (req, res) {
@@ -86,7 +84,6 @@ export async function devToolsCommand(
 
     // passive bus to sniff packets
     const bridge = createProxyBridge((data, sender) => {
-        //console.log(sender)
         clients
             .filter(c => c[SENDER_FIELD] !== sender)
             .forEach(c => c.send(Buffer.from(data)))
