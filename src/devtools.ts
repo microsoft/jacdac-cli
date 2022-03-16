@@ -10,6 +10,7 @@ import {
     randomDeviceId,
     PACKET_RECEIVE_NO_DEVICE,
 } from "jacdac-ts"
+import { enableLogging } from "./jdlogging"
 import { createTransports, TransportsOptions } from "./transports"
 
 const SENDER_FIELD = "__jacdac_sender"
@@ -48,16 +49,16 @@ export async function devToolsCommand(
     options?: {
         packets?: boolean
         internet?: boolean
-        log?: string
+        logging?: boolean
+        trace?: string
     } & TransportsOptions
 ) {
-    const { packets, internet } = options || {}
-    const logFile = options?.log
+    const { packets, internet, trace, logging } = options || {}
     const port = 8081
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
 
-    if (logFile) fs.writeFileSync(logFile, "")
+    if (trace) fs.writeFileSync(trace, "")
 
     log(`Jacdac dev tools`)
     log(`   dashboard: http://localhost:${port}`)
@@ -169,10 +170,10 @@ export async function devToolsCommand(
         client.on("error", ev => error(ev))
     })
 
-    if (packets || logFile)
+    if (packets || trace)
         bus.on([PACKET_RECEIVE_NO_DEVICE, PACKET_PROCESS], (pkt: Packet) => {
             const serialized = serializeToTrace(pkt, 0)
-            if (logFile) fs.appendFileSync(logFile, serialized + "\n")
+            if (trace) fs.appendFileSync(trace, serialized + "\n")
             // don't print everything...
             const str = printPacket(pkt, {
                 showTime: true,
@@ -181,6 +182,8 @@ export async function devToolsCommand(
             })
             if (str && packets) debug(serialized)
         })
+
+    if (logging) enableLogging(bus)
 
     bus.start()
     bus.connect(true)

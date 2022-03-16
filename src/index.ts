@@ -41,7 +41,8 @@ async function mainCli() {
 
     createCommand("devtools")
         .option("-p, --packets", "show all packets")
-        .option("-l, --log <string>", "save packet trace to file")
+        .option("-l, --logging", "print out device log messages as they come")
+        .option("-t, --trace <string>", "save all packets to named file")
         .option("-w, --internet", "allow connections from non-localhost")
         .option("-u, --usb", "listen to Jacdac over USB (requires usb)")
         .option(
