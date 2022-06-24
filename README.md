@@ -6,8 +6,6 @@ A command line interface to support various tasks using Jacdac.
 for **microcontrollers** and their peripherals (sensors/actuators),
 with applications to rapid prototyping, making, and physical computing.
 
-**Partner Preview: Jacdac is currently in preview. If you would like to join as a pre-release test partner, please email jacdac-tap@microsoft.com.**
-
 This repository contains a command line interface tool for the [Jacdac](https://aka.ms/jacdac) protocol.
 
 -   **[Jacdac Protocol Documentation](https://aka.ms/jacdac/)**
