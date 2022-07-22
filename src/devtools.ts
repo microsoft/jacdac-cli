@@ -104,7 +104,9 @@ export async function devToolsCommand(
     bus.addBridge(bridge)
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
-        bus.transports.map(transport => transport.sendPacketWhenConnectedAsync(data))
+        bus.transports.map(transport =>
+            transport.sendPacketWhenConnectedAsync(data)
+        )
         bridge.receiveFrameOrPacket(data, sender)
     }
 
