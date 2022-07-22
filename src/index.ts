@@ -45,6 +45,7 @@ async function mainCli() {
         .option("-t, --trace <string>", "save all packets to named file")
         .option("-w, --internet", "allow connections from non-localhost")
         .option("-u, --usb", "listen to Jacdac over USB (requires usb)")
+        .option("-d, --diagnostics", "print more debug info")
         .option(
             "-s, --serial",
             "listen to Jacdac over SERIAL (requires serialport)"

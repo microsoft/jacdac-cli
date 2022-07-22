@@ -9,6 +9,7 @@ import {
     createProxyBridge,
     randomDeviceId,
     PACKET_RECEIVE_NO_DEVICE,
+    Flags,
 } from "jacdac-ts"
 import { enableLogging } from "./jdlogging"
 import { createTransports, TransportsOptions } from "./transports"
@@ -51,13 +52,15 @@ export async function devToolsCommand(
         internet?: boolean
         logging?: boolean
         trace?: string
+        diagnostics?: boolean
     } & TransportsOptions
 ) {
-    const { packets, internet, trace, logging } = options || {}
+    const { packets, internet, trace, logging, diagnostics } = options || {}
     const port = 8081
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
 
+    if (diagnostics) Flags.diagnostics = true
     if (trace) fs.writeFileSync(trace, "")
 
     log(`Jacdac dev tools`)
@@ -84,11 +87,7 @@ export async function devToolsCommand(
     })
 
     // passive bus to sniff packets
-    const bridge = createProxyBridge((data, sender) => {
-        clients
-            .filter(c => c[SENDER_FIELD] !== sender)
-            .forEach(c => c.send(Buffer.from(data)))
-    })
+
     const transports = createTransports(options)
     const bus = new JDBus(transports, {
         client: false,
@@ -97,9 +96,15 @@ export async function devToolsCommand(
     })
     bus.passive = true
     bus.on(ERROR, e => error(e))
+    const bridge = createProxyBridge((data, sender) => {
+        clients
+            .filter(c => c[SENDER_FIELD] !== sender)
+            .forEach(c => c.send(Buffer.from(data)))
+    })
     bus.addBridge(bridge)
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
+        bus.transports.map(transport => transport.sendPacketWhenConnectedAsync(data))
         bridge.receiveFrameOrPacket(data, sender)
     }
 
