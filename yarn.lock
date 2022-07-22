@@ -1607,10 +1607,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.7.tgz#36820945061326978c42a01e56b61cd223dfdc42"
   integrity sha512-QB5D2sqfSjCmTuWcBWyJ+/44bcjO7VbjSbOE0ucoVbAsSNQc4Lt6QkgkVXkTDwkL4z/beecZNDvVX15D4P8Jbw==
 
-"@types/node@^17.0.17":
-  version "17.0.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.17.tgz#a8ddf6e0c2341718d74ee3dc413a13a042c45a0c"
-  integrity sha512-e8PUNQy1HgJGV3iU/Bp2+D/DXh3PYeyli8LgIwsQcs1Ar1LoaWHSIT6Rw+H2rNJmiq6SNWiDytfx8+gYj7wDHw==
+"@types/node@^17.0.41":
+  version "17.0.45"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
+  integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -1639,15 +1639,20 @@
   resolved "https://registry.yarnpkg.com/@types/w3c-web-serial/-/w3c-web-serial-1.0.2.tgz#8bf21f90b40dda6d2e2e6b188417b6bd66525d03"
   integrity sha512-Ftx4BtLxgAnel7V7GbHylCYjSq827A+jeEE3SnTS7huCGUN0pSwUn+CchTCT9TkZj9w+NVMUq4Bk2R0GvUNmAQ==
 
-"@types/w3c-web-usb@^1.0.4", "@types/w3c-web-usb@^1.0.5":
+"@types/w3c-web-usb@^1.0.4":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/w3c-web-usb/-/w3c-web-usb-1.0.5.tgz#90284d17f35de981670c85d29053ae8b88fa5543"
   integrity sha512-dYolx2XWesl1TMu+1BjtjU6eC6c2zZ2VDKhjU4f/mtR3+UBfMW6h1tPCQt7leY5Y8JBg0Fe/mMnoDMkPPNX9sw==
 
-"@types/web-bluetooth@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.12.tgz#e3dfd5a86a1f753305b9888c320937b5734118ae"
-  integrity sha512-Q4sUrowpylCOWjUWFtNwkNBHQUnCL8y44Iq2ZLtVMAuAGIwPSXa3kqIvu2LwXoc2d1jyaaw4Bg354degHrsADw==
+"@types/w3c-web-usb@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/w3c-web-usb/-/w3c-web-usb-1.0.6.tgz#5d8560d0d9f585ffc80865bc773db7bc975b680c"
+  integrity sha512-cSjhgrr8g4KbPnnijAr/KJDNKa/bBa+ixYkywFRvrhvi9n1WEl7yYbtRyzE6jqNQiSxxJxoAW3STaOQwJHndaw==
+
+"@types/web-bluetooth@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.14.tgz#94e175b53623384bff1f354cdb3197a8d63cdbe5"
+  integrity sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==
 
 "@typescript-eslint/eslint-plugin@^5.11.0":
   version "5.11.0"
@@ -4024,15 +4029,15 @@ issue-parser@^6.0.0:
     lodash.isstring "^4.0.1"
     lodash.uniqby "^4.7.0"
 
-jacdac-ts@^1.24.19:
-  version "1.24.19"
-  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.24.19.tgz#c55883aa4af0d73db2a7ef3a4035bc4fa4a1fc15"
-  integrity sha512-wr9jzuPILKTIP2tV0CuNxCehHd4s89mohC4cmp4FXyesp4HpJ4XY8zCRZvwz8pG2Cd4GlvfDTj4PECUlKAWBrA==
+jacdac-ts@^1.25.0:
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.25.0.tgz#53a9c2d6a7623b1d4e736e0127e0df93ab5766fa"
+  integrity sha512-jJNImS4Yc14tNMEaXR5gq/VxHLSpClqVVnJdV7uP9sa7s9hL9H+WSZ2CFZxIaG/0TAR1+YCBz1WFuuDB1+QaZA==
   dependencies:
-    "@types/node" "^17.0.17"
+    "@types/node" "^17.0.41"
     "@types/w3c-web-serial" "^1.0.2"
-    "@types/w3c-web-usb" "^1.0.5"
-    "@types/web-bluetooth" "^0.0.12"
+    "@types/w3c-web-usb" "^1.0.6"
+    "@types/web-bluetooth" "^0.0.14"
 
 jake@^10.6.1:
   version "10.8.2"
