@@ -4029,10 +4029,10 @@ issue-parser@^6.0.0:
     lodash.isstring "^4.0.1"
     lodash.uniqby "^4.7.0"
 
-jacdac-ts@^1.25.0:
-  version "1.25.0"
-  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.25.0.tgz#53a9c2d6a7623b1d4e736e0127e0df93ab5766fa"
-  integrity sha512-jJNImS4Yc14tNMEaXR5gq/VxHLSpClqVVnJdV7uP9sa7s9hL9H+WSZ2CFZxIaG/0TAR1+YCBz1WFuuDB1+QaZA==
+jacdac-ts@^1.27.0:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.27.0.tgz#8c3d212a2fb2bac18b14a91cc91a39dde0a0825f"
+  integrity sha512-oXbtYALFxuY7R7lf34GE+39FA4a6lU0OY1SgOEDnS5L8WBEIqrWA1tDgNB4bRTxMoZMyAoLvJqi9duYqj1lXaw==
   dependencies:
     "@types/node" "^17.0.41"
     "@types/w3c-web-serial" "^1.0.2"
