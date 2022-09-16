@@ -27,7 +27,7 @@ export async function streamCommand(
             const str = printPacket(pkt, {
                 showTime: true,
             })
-            if (str) debug(serializeToTrace(pkt, 0))
+            if (str) debug(str)
         })
     bus.streaming = !!options.sensors
     bus.start()

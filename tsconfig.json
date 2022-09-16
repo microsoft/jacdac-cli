@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "strict": false,
+    "strictNullChecks": false,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "preserveConstEnums": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "declarationDir": "dist/types",
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "pretty": true,
+    "newLine": "LF",
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}

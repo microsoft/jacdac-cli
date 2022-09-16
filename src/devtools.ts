@@ -10,6 +10,8 @@ import {
     randomDeviceId,
     PACKET_RECEIVE_NO_DEVICE,
     Flags,
+    JDFrameBuffer,
+    FRAME_PROCESS,
 } from "jacdac-ts"
 import { enableLogging } from "./jdlogging"
 import { createTransports, TransportsOptions } from "./transports"
@@ -17,11 +19,11 @@ import { createTransports, TransportsOptions } from "./transports"
 const SENDER_FIELD = "__jacdac_sender"
 /* eslint-disable @typescript-eslint/no-var-requires */
 const WebSocket = require("faye-websocket")
-const http = require("http")
-const https = require("https")
-const url = require("url")
-const net = require("net")
-const fs = require("fs")
+import http from "http"
+import https from "https"
+import url from "url"
+import net from "net"
+import fs from "fs"
 
 const log = console.log
 const debug = console.debug
@@ -53,9 +55,11 @@ export async function devToolsCommand(
         logging?: boolean
         trace?: string
         diagnostics?: boolean
+        localhost?: boolean
     } & TransportsOptions
 ) {
-    const { packets, internet, trace, logging, diagnostics } = options || {}
+    const { packets, internet, trace, logging, diagnostics, localhost } =
+        options || {}
     const port = 8081
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
@@ -69,7 +73,12 @@ export async function devToolsCommand(
     log(`   raw socket: tcp://localhost:${tcpPort}`)
 
     // download proxy sources
-    const proxyHtml = await fetchProxy()
+    let proxyHtml = await fetchProxy()
+    if (localhost)
+        proxyHtml = proxyHtml.replace(
+            /https:\/\/microsoft.github.io\/jacdac-docs\/dashboard/g,
+            "http://localhost:8000/dashboard"
+        )
 
     // start http server
     const clients: WebSocket[] = []
@@ -96,17 +105,21 @@ export async function devToolsCommand(
     })
     bus.passive = true
     bus.on(ERROR, e => error(e))
-    const bridge = createProxyBridge((data, sender) => {
+    const forwardFrame = (frame: JDFrameBuffer) => {
+        if (trace)
+            fs.appendFileSync(trace, serializeToTrace(frame, 0, bus) + "\n")
         clients
-            .filter(c => c[SENDER_FIELD] !== sender)
-            .forEach(c => c.send(Buffer.from(data)))
+            .filter(c => (c as any)[SENDER_FIELD] !== frame._jacdac_sender)
+            .forEach(c => c.send(Buffer.from(frame)))
+    }
+    const bridge = createProxyBridge((data, sender) => {
+        // note that this is not invoked on bridge.receiveFrameOrPacket(), since these are our own frames
+        // FRAME_PROCESS event below is invoked for all frames
     })
+    bridge.on(FRAME_PROCESS, forwardFrame)
     bus.addBridge(bridge)
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
-        bus.transports.map(transport =>
-            transport.sendPacketWhenConnectedAsync(data)
-        )
         bridge.receiveFrameOrPacket(data, sender)
     }
 
@@ -125,16 +138,16 @@ export async function devToolsCommand(
             client[SENDER_FIELD] = sender
             clients.push(client)
             log(`client: connected (${sender}, ${clients.length} clients)`)
-            client.on("message", event => {
+            client.on("message", (event: any) => {
                 const { data } = event
                 processPacket(data, sender)
             })
             client.on("close", () => removeClient(client))
-            client.on("error", ev => error(ev))
+            client.on("error", (ev: Error) => error(ev))
         }
     })
 
-    const tcpServer = net.createServer(client => {
+    const tcpServer = net.createServer((client: any) => {
         const sender = "tcp" + randomDeviceId()
         client[SENDER_FIELD] = sender
         client.send = (pkt0: Buffer) => {
@@ -174,20 +187,18 @@ export async function devToolsCommand(
             }
         })
         client.on("end", () => removeClient(client))
-        client.on("error", ev => error(ev))
+        client.on("error", (ev: Error) => error(ev))
     })
 
-    if (packets || trace)
+    if (packets)
         bus.on([PACKET_RECEIVE_NO_DEVICE, PACKET_PROCESS], (pkt: Packet) => {
-            const serialized = serializeToTrace(pkt, 0)
-            if (trace) fs.appendFileSync(trace, serialized + "\n")
             // don't print everything...
             const str = printPacket(pkt, {
                 showTime: true,
                 skipRepeatedAnnounce: true,
                 skipResetIn: true,
             })
-            if (str && packets) debug(serialized)
+            if (str && packets) debug(str)
         })
 
     if (logging) enableLogging(bus)

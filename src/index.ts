@@ -54,6 +54,10 @@ async function mainCli() {
             "-i, --spi",
             "listen to Jacdac over SPI (requires rpio, experimental)"
         )
+        .option(
+            "--localhost",
+            "use localhost:8000 instead of the internet dashboard"
+        )
         .action(devToolsCommand)
 
     await program.parseAsync(process.argv)
