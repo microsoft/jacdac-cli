@@ -58,6 +58,10 @@ async function mainCli() {
             "--localhost",
             "use localhost:8000 instead of the internet dashboard"
         )
+        .option(
+            "-j, --jacscript <string>",
+            "upload and watch source of local jacscript file"
+        )
         .action(devToolsCommand)
 
     await program.parseAsync(process.argv)

@@ -12,6 +12,8 @@ import {
     Flags,
     JDFrameBuffer,
     FRAME_PROCESS,
+    JSONTryParse,
+    prettySize,
 } from "jacdac-ts"
 import { enableLogging } from "./jdlogging"
 import { createTransports, TransportsOptions } from "./transports"
@@ -29,10 +31,14 @@ const log = console.log
 const debug = console.debug
 const error = console.error
 
-function fetchProxy(): Promise<string> {
-    const url = "https://microsoft.github.io/jacdac-docs/devtools/proxy"
+function fetchProxy(localhost: boolean): Promise<string> {
+    const protocol = localhost ? http : https
+    const url = localhost
+        ? "http://localhost:8000/devtools/proxy.html"
+        : "https://microsoft.github.io/jacdac-docs/devtools/proxy"
+    console.debug(`fetch devtools proxy at ${url}`)
     return new Promise<string>((resolve, reject) => {
-        https
+        protocol
             .get(url, res => {
                 if (res.statusCode != 200)
                     reject(
@@ -41,7 +47,15 @@ function fetchProxy(): Promise<string> {
                 res.setEncoding("utf8")
                 let body = ""
                 res.on("data", data => (body += data))
-                res.on("end", () => resolve(body))
+                res.on("end", () => {
+                    if (localhost) {
+                        body = body.replace(
+                            /https:\/\/microsoft.github.io\/jacdac-docs\/dashboard/g,
+                            "http://localhost:8000/dashboard"
+                        )
+                    }
+                    resolve(body)
+                })
                 res.on("error", reject)
             })
             .on("error", reject)
@@ -56,10 +70,18 @@ export async function devToolsCommand(
         trace?: string
         diagnostics?: boolean
         localhost?: boolean
+        jacscript?: string
     } & TransportsOptions
 ) {
-    const { packets, internet, trace, logging, diagnostics, localhost } =
-        options || {}
+    const {
+        packets,
+        internet,
+        trace,
+        logging,
+        diagnostics,
+        localhost,
+        jacscript: jacscriptFile,
+    } = options || {}
     const port = 8081
     const tcpPort = 8082
     const listenHost = internet ? undefined : "127.0.0.1"
@@ -73,15 +95,26 @@ export async function devToolsCommand(
     log(`   raw socket: tcp://localhost:${tcpPort}`)
 
     // download proxy sources
-    let proxyHtml = await fetchProxy()
-    if (localhost)
-        proxyHtml = proxyHtml.replace(
-            /https:\/\/microsoft.github.io\/jacdac-docs\/dashboard/g,
-            "http://localhost:8000/dashboard"
-        )
+    const proxyHtml = await fetchProxy(localhost)
 
     // start http server
     const clients: WebSocket[] = []
+
+    // upload jacscript file is needed
+    const sendJacscript = jacscriptFile
+        ? () => {
+              const source = fs.readFileSync(jacscriptFile, {
+                  encoding: "utf-8",
+              })
+              console.debug(`refresh jacscript (${prettySize(source.length)})`)
+              const msg = JSON.stringify({
+                  type: "source",
+                  channel: "jacscript",
+                  source,
+              })
+              clients.forEach(c => c.send(msg))
+          }
+        : undefined
 
     const server = http.createServer(function (req, res) {
         const parsedUrl = url.parse(req.url)
@@ -118,6 +151,11 @@ export async function devToolsCommand(
     })
     bridge.on(FRAME_PROCESS, forwardFrame)
     bus.addBridge(bridge)
+    const processMessage = (message: string, sender: string) => {
+        const msg = JSONTryParse(message)
+        if (!msg) return
+        console.debug(msg)
+    }
     const processPacket = (message: Buffer | Uint8Array, sender: string) => {
         const data = new Uint8Array(message)
         bridge.receiveFrameOrPacket(data, sender)
@@ -140,10 +178,12 @@ export async function devToolsCommand(
             log(`client: connected (${sender}, ${clients.length} clients)`)
             client.on("message", (event: any) => {
                 const { data } = event
-                processPacket(data, sender)
+                if (typeof data === "string") processMessage(data, sender)
+                else processPacket(data, sender)
             })
             client.on("close", () => removeClient(client))
             client.on("error", (ev: Error) => error(ev))
+            if (sendJacscript) sendJacscript()
         }
     })
 
@@ -207,4 +247,11 @@ export async function devToolsCommand(
     bus.connect(true)
     server.listen(port, listenHost)
     tcpServer.listen(tcpPort, listenHost)
+
+    if (sendJacscript) {
+        console.debug(`watch ${jacscriptFile}`)
+        fs.watch(jacscriptFile, async (eventType, filename) => {
+            sendJacscript()
+        })
+    }
 }
