@@ -1,10 +1,8 @@
 import { readFileSync } from "fs"
 import {
     delay,
-    DEVICE_ANNOUNCE,
     JacscriptManagerCmd,
     JDBus,
-    JDDevice,
     OutPipe,
     prettySize,
     sha256,
@@ -14,8 +12,6 @@ import {
 import { createTransports, TransportsOptions } from "./transports"
 
 const log = console.log
-const debug = console.debug
-const error = console.error
 
 export async function deployCommand(
     file: string,
