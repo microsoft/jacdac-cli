@@ -101,11 +101,14 @@ export async function devToolsCommand(
     const clients: WebSocket[] = []
 
     // upload jacscript file is needed
+    let lastJacscriptSource = "'"
     const sendJacscript = jacscriptFile
         ? () => {
               const source = fs.readFileSync(jacscriptFile, {
                   encoding: "utf-8",
               })
+              if (source === lastJacscriptSource) return
+
               console.debug(`refresh jacscript (${prettySize(source.length)})`)
               const msg = JSON.stringify({
                   type: "source",
@@ -113,6 +116,7 @@ export async function devToolsCommand(
                   source,
               })
               clients.forEach(c => c.send(msg))
+              lastJacscriptSource = source
           }
         : undefined
 
