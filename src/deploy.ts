@@ -30,7 +30,6 @@ export async function deployCommand(
     log(`starting bus...`)
     const bus = new JDBus(transports, { client: false })
     bus.start()
-    bus.on(DEVICE_ANNOUNCE, (device: JDDevice) => debug(`announce ${device}`))
 
     // connect to a bus
     await bus.connect()
@@ -40,6 +39,8 @@ export async function deployCommand(
 
     // deploy to services on bus
     const services = bus.services({ serviceClass: SRV_JACSCRIPT_MANAGER })
+    log(`found ${services.length} jacscript managers`)
+
     for (const service of services) {
         log(`deploy to ${service}`)
         await OutPipe.sendBytes(
@@ -48,4 +49,6 @@ export async function deployCommand(
             bytecode
         )
     }
+
+    process.exit(services.length > 0 ? 0 : -1)
 }
