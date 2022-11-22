@@ -67,6 +67,7 @@ async function mainCli() {
 
     createCommand("deploy")
         .description("deploy a jacscript program (as bytecode) to devices")
+        .argument("<file>", "jacscript bytecode file")
         .option("-u, --usb", "listen to Jacdac over USB (requires usb)")
         .option(
             "-s, --serial",
