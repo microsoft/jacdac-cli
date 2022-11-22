@@ -172,6 +172,7 @@ export async function devToolsCommand(
         if (WebSocket.isWebSocket(request)) {
             const client = new WebSocket(request, socket, body)
             const sender = "ws" + randomDeviceId()
+            let firstJacscript = false
             // store sender id to deduped packet
             client[SENDER_FIELD] = sender
             clients.push(client)
@@ -180,10 +181,13 @@ export async function devToolsCommand(
                 const { data } = event
                 if (typeof data === "string") processMessage(data, sender)
                 else processPacket(data, sender)
+                if (!firstJacscript && sendJacscript) {
+                    firstJacscript = true
+                    sendJacscript()
+                }
             })
             client.on("close", () => removeClient(client))
             client.on("error", (ev: Error) => error(ev))
-            if (sendJacscript) sendJacscript()
         }
     })
 
