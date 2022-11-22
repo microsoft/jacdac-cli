@@ -3,7 +3,6 @@ import {
     JDBus,
     printPacket,
     Packet,
-    serializeToTrace,
     isCancelError,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"

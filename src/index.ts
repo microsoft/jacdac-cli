@@ -4,6 +4,7 @@ import type { CommandOptions } from "commander"
 import { devToolsCommand } from "./devtools"
 import { parseCommand } from "./parse"
 import { streamCommand } from "./stream"
+import { deployCommand } from "./deploy"
 
 const log = console.log
 const error = console.error
@@ -63,6 +64,20 @@ async function mainCli() {
             "upload and watch source of local jacscript file"
         )
         .action(devToolsCommand)
+
+    createCommand("deploy")
+        .description("deploy a jacscript program (as bytecode) to devices")
+        .option("-u, --usb", "listen to Jacdac over USB (requires usb)")
+        .option(
+            "-s, --serial",
+            "listen to Jacdac over SERIAL (requires serialport)"
+        )
+        .option(
+            "-i, --spi",
+            "listen to Jacdac over SPI (requires rpio, experimental)"
+        )
+        .option("--devices <string>", "regular expression filter for devices")
+        .action(deployCommand)
 
     await program.parseAsync(process.argv)
 }
