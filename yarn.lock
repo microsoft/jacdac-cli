@@ -3974,10 +3974,10 @@ issue-parser@^6.0.0:
     lodash.isstring "^4.0.1"
     lodash.uniqby "^4.7.0"
 
-jacdac-ts@^1.28.7:
-  version "1.28.7"
-  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.28.7.tgz#e56290f6910cf5d0181be749ab3d32aa48831582"
-  integrity sha512-zW13GhyHNN7VOAcbMLUUUNd90wXIALbum23WLbn1GkVOOlEbuQpVah8SRlGAsFmkPOzdYvz3Rc7BkDyjEGVttw==
+jacdac-ts@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.29.0.tgz#b77cff28d137a2fd75eeb3b1895f759e98ba5fbb"
+  integrity sha512-usEAgbqOlm4LTx3JLFCwozcj2w5GFgpOlivP1bICGkwrv53kbRX5NjnNADgkecRDOXF4ZeguAzHt2AW+CQtAGg==
   dependencies:
     "@types/node" "^17.0.41"
     "@types/w3c-web-serial" "^1.0.2"

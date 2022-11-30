@@ -70,7 +70,7 @@ export async function devToolsCommand(
         trace?: string
         diagnostics?: boolean
         localhost?: boolean
-        jacscript?: string
+        deviceScript?: string
     } & TransportsOptions
 ) {
     const {
@@ -80,7 +80,7 @@ export async function devToolsCommand(
         logging,
         diagnostics,
         localhost,
-        jacscript: jacscriptFile,
+        deviceScript: deviceScriptFile,
     } = options || {}
     const port = 8081
     const tcpPort = 8082
@@ -100,16 +100,18 @@ export async function devToolsCommand(
     // start http server
     const clients: WebSocket[] = []
 
-    // upload jacscript file is needed
-    const sendJacscript = jacscriptFile
+    // upload DeviceScript file is needed
+    const sendDeviceScript = deviceScriptFile
         ? () => {
-              const source = fs.readFileSync(jacscriptFile, {
+              const source = fs.readFileSync(deviceScriptFile, {
                   encoding: "utf-8",
               })
-              console.debug(`refresh jacscript (${prettySize(source.length)})`)
+              console.debug(
+                  `refresh DeviceScript (${prettySize(source.length)})`
+              )
               const msg = JSON.stringify({
                   type: "source",
-                  channel: "jacscript",
+                  channel: "devicescript",
                   source,
               })
               clients.forEach(c => c.send(msg))
@@ -172,7 +174,7 @@ export async function devToolsCommand(
         if (WebSocket.isWebSocket(request)) {
             const client = new WebSocket(request, socket, body)
             const sender = "ws" + randomDeviceId()
-            let firstJacscript = false
+            let firstDeviceScript = false
             // store sender id to deduped packet
             client[SENDER_FIELD] = sender
             clients.push(client)
@@ -181,9 +183,9 @@ export async function devToolsCommand(
                 const { data } = event
                 if (typeof data === "string") processMessage(data, sender)
                 else processPacket(data, sender)
-                if (!firstJacscript && sendJacscript) {
-                    firstJacscript = true
-                    sendJacscript()
+                if (!firstDeviceScript && sendDeviceScript) {
+                    firstDeviceScript = true
+                    sendDeviceScript()
                 }
             })
             client.on("close", () => removeClient(client))
@@ -252,10 +254,10 @@ export async function devToolsCommand(
     server.listen(port, listenHost)
     tcpServer.listen(tcpPort, listenHost)
 
-    if (sendJacscript) {
-        console.debug(`watch ${jacscriptFile}`)
-        fs.watch(jacscriptFile, async (eventType, filename) => {
-            sendJacscript()
+    if (sendDeviceScript) {
+        console.debug(`watch ${deviceScriptFile}`)
+        fs.watch(deviceScriptFile, async (eventType, filename) => {
+            sendDeviceScript()
         })
     }
 }

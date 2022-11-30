@@ -60,14 +60,14 @@ async function mainCli() {
             "use localhost:8000 instead of the internet dashboard"
         )
         .option(
-            "-j, --jacscript <string>",
-            "upload and watch source of local jacscript file"
+            "-j, --device-script <string>",
+            "upload and watch source of local DeviceScript file"
         )
         .action(devToolsCommand)
 
     createCommand("deploy")
-        .description("deploy a jacscript program (as bytecode) to devices")
-        .argument("<file>", "jacscript bytecode file")
+        .description("deploy a DeviceScript program (as bytecode) to devices")
+        .argument("<file>", "DeviceScript bytecode file")
         .option("-u, --usb", "listen to Jacdac over USB (requires usb)")
         .option(
             "-s, --serial",
