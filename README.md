@@ -50,9 +50,9 @@ This command will work in [GitHub codespaces](https://github.com/features/codesp
 jacdac devtools
 ```
 
-#### `jacscript devtools --jacscript <file>`
+#### `jacdac devtools --device-script <file>`
 
-Starts the devtools web site and also watches/uploads the source of a given jacscript to the development web site. The dev web site will automatically compile and potentially deploy the jacscript program to a connected device.
+Starts the devtools web site and also watches/uploads the source of a given [DeviceScript](https://aka.ms/devicescript) to the development web site. The dev web site will automatically compile and potentially deploy the DeviceScript program to a connected device.
 
 ## Contributing
 

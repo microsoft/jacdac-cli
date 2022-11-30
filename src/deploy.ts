@@ -1,12 +1,12 @@
 import { readFileSync } from "fs"
 import {
     delay,
-    JacscriptManagerCmd,
+    DeviceScriptManagerCmd,
     JDBus,
     OutPipe,
     prettySize,
     sha256,
-    SRV_JACSCRIPT_MANAGER,
+    SRV_DEVICE_SCRIPT_MANAGER,
     toHex,
 } from "jacdac-ts"
 import { createTransports, TransportsOptions } from "./transports"
@@ -20,7 +20,7 @@ export async function deployCommand(
     const bytecode = readFileSync(file)
     const sha = await sha256([bytecode])
 
-    log(`jacscript bytecode ${prettySize(bytecode.length)}, ${toHex(sha)}`)
+    log(`bytecode ${prettySize(bytecode.length)}, ${toHex(sha)}`)
 
     const transports = createTransports(options)
     log(`starting bus...`)
@@ -34,14 +34,14 @@ export async function deployCommand(
     await delay(1000)
 
     // deploy to services on bus
-    const services = bus.services({ serviceClass: SRV_JACSCRIPT_MANAGER })
-    log(`found ${services.length} jacscript managers`)
+    const services = bus.services({ serviceClass: SRV_DEVICE_SCRIPT_MANAGER })
+    log(`found ${services.length} managers`)
 
     for (const service of services) {
         log(`deploy to ${service}`)
         await OutPipe.sendBytes(
             service,
-            JacscriptManagerCmd.DeployBytecode,
+            DeviceScriptManagerCmd.DeployBytecode,
             bytecode
         )
     }
