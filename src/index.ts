@@ -59,10 +59,6 @@ async function mainCli() {
             "--localhost",
             "use localhost:8000 instead of the internet dashboard"
         )
-        .option(
-            "-j, --device-script <string>",
-            "upload and watch source of local DeviceScript file"
-        )
         .action(devToolsCommand)
 
     createCommand("deploy")
