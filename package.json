@@ -39,7 +39,7 @@
   "dependencies": {
     "commander": "^9.4.1",
     "faye-websocket": "^0.11.4",
-    "jacdac-ts": "^1.29.0"
+    "jacdac-ts": "^1.33.0"
   },
   "devDependencies": {
     "@semantic-release/exec": "^6.0.3",
