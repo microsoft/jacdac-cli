@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository has moved to https://github.com/jacdac/jacdac-cli
+ 
 # Jacdac CLI
 
 A command line interface to support various tasks using Jacdac.
